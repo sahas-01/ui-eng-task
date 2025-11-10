@@ -14,7 +14,10 @@ const geoUrl = 'https://cdn.jsdelivr.net/npm/world-atlas@2/countries-110m.json'
 // Location coordinates for markers
 const markers = [
   { city: 'New York', coordinates: [-74.006, 40.7128] as [number, number] },
-  { city: 'San Francisco', coordinates: [-122.4194, 37.7749] as [number, number] },
+  {
+    city: 'San Francisco',
+    coordinates: [-122.4194, 37.7749] as [number, number],
+  },
   { city: 'Sydney', coordinates: [151.2093, -33.8688] as [number, number] },
   { city: 'Singapore', coordinates: [103.8198, 1.3521] as [number, number] },
 ]
@@ -23,15 +26,15 @@ export const RevenueByLocation = memo(function RevenueByLocation() {
   const [hoveredCity, setHoveredCity] = useState<string | null>(null)
 
   return (
-    <Card className="p-6 rounded-2xl bg-card/50 dark:bg-white/2 border-border/50 h-full flex flex-col">
+    <Card className="p-6 rounded-2xl bg-[#F7F9FB] dark:bg-[#FFFFFF0D] border-border/50 flex flex-col h-full">
       <div className="mb-4">
-        <h3 className="text-lg font-semibold text-foreground">
+        <h3 className="font-inter font-semibold text-sm leading-5 text-foreground">
           Revenue by Location
         </h3>
       </div>
 
       {/* World Map */}
-      <div className="relative h-[160px] mb-4 rounded-lg overflow-hidden">
+      <div className="relative h-32 mb-4 rounded-lg overflow-hidden">
         <ComposableMap
           projectionConfig={{
             rotate: [-10, 0, 0],
@@ -67,7 +70,7 @@ export const RevenueByLocation = memo(function RevenueByLocation() {
                 style={{ cursor: 'pointer' }}
               >
                 <circle
-                  r={6}
+                  r={10}
                   className="fill-black dark:fill-[#C6C7F8] transition-all"
                   stroke="none"
                 />

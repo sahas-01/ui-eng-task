@@ -18,15 +18,17 @@ export const MetricCard = memo(function MetricCard({
   const isPositive = trend === 'up'
 
   // Define background styles for specific cards
-  const isHighlighted = title === 'Customers' || title === 'Growth'
+  const getBackgroundColor = () => {
+    if (title === 'Customers') return 'bg-[#E3F5FF] dark:bg-white/5'
+    if (title === 'Growth') return 'bg-[#E5ECF6] dark:bg-white/5'
+    return 'bg-card/50 dark:bg-white/2'
+  }
 
   return (
     <Card
       className={cn(
         'px-6 py-4 transition-all duration-300 border-border/50 rounded-2xl',
-        isHighlighted
-          ? 'bg-blue-50 dark:bg-white/5'
-          : 'bg-card/50 dark:bg-white/2',
+        getBackgroundColor(),
         className,
       )}
     >

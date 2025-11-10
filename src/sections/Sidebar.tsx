@@ -94,7 +94,7 @@ function NavItemComponent({
         'flex items-center gap-2 px-3 py-2 rounded-lg text-sm transition-all duration-200',
         'hover:bg-accent/50 dark:hover:bg-accent/30 cursor-pointer group',
         'text-muted-foreground hover:text-foreground',
-        depth > 0 && 'pl-8'
+        depth > 0 && 'pl-8',
       )}
       onClick={() => hasChildren && setIsExpanded(!isExpanded)}
     >
@@ -118,7 +118,11 @@ function NavItemComponent({
 
   return (
     <div>
-      {item.href && !hasChildren ? <Link to={item.href}>{content}</Link> : content}
+      {item.href && !hasChildren ? (
+        <Link to={item.href}>{content}</Link>
+      ) : (
+        content
+      )}
       {hasChildren && isExpanded && (
         <div className="mt-1 space-y-1 animate-in slide-in-from-top-2 duration-200">
           {item.children?.map((child, index) => (
@@ -132,7 +136,7 @@ function NavItemComponent({
 
 export function Sidebar() {
   return (
-    <aside className="w-64 h-screen bg-sidebar border-r border-border flex flex-col overflow-y-auto">
+    <aside className="w-64 h-screen bg-white dark:bg-[#1C1C1C] border-r border-border flex flex-col overflow-y-auto">
       {/* Logo */}
       <div className="p-4 border-b border-border">
         <Link

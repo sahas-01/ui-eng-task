@@ -35,7 +35,8 @@ const CustomShape = (props: any) => {
       startAngle={startAngle}
       endAngle={endAngle}
       fill={fill}
-      cornerRadius={10}
+      cornerRadius={15}
+      cornerIsExternal={true}
     />
   )
 }
@@ -82,27 +83,29 @@ export const SalesChart = memo(function SalesChart() {
   }
 
   return (
-    <Card className="p-6 rounded-2xl bg-card/50 dark:bg-white/2 border-border/50 h-full flex flex-col">
+    <Card className="p-6 rounded-2xl bg-[#F7F9FB] dark:bg-[#FFFFFF0D] border-border/50 h-full flex flex-col">
       <div>
-        <h3 className="text-xl font-semibold text-foreground">Total Sales</h3>
+        <h3 className="font-inter font-semibold text-sm leading-5 text-foreground">
+          Total Sales
+        </h3>
       </div>
       <div className="relative flex-1 flex items-center justify-center py-4">
-        <ResponsiveContainer width="100%" height={180}>
+        <ResponsiveContainer width="100%" height={200}>
           <PieChart>
             <Pie
               data={salesData}
               cx="50%"
               cy="50%"
-              innerRadius={45}
-              outerRadius={70}
-              paddingAngle={5}
+              innerRadius={50}
+              outerRadius={80}
+              paddingAngle={0.5}
               dataKey="value"
               startAngle={90}
               endAngle={450}
               activeShape={CustomShape}
               onMouseEnter={onPieEnter}
               onMouseLeave={onPieLeave}
-              cornerRadius={10}
+              cornerRadius={15}
             >
               {salesData.map((item) => (
                 <Cell
@@ -116,14 +119,14 @@ export const SalesChart = memo(function SalesChart() {
         </ResponsiveContainer>
         {activeIndex !== null && (
           <div
-            className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 px-5 py-3 rounded-3xl pointer-events-none"
+            className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 px-3 py-1.5 rounded-2xl pointer-events-none"
             style={{
               backgroundColor: '#1C1C1CCC',
               backdropFilter: 'blur(40px)',
               WebkitBackdropFilter: 'blur(40px)',
             }}
           >
-            <div className="text-3xl font-semibold text-white tracking-tight">
+            <div className="text-sm font-semibold text-white tracking-tight">
               {getPercentage(salesData[activeIndex].value)}%
             </div>
           </div>

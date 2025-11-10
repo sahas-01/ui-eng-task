@@ -19,7 +19,7 @@ const notificationIcons = {
 
 export function RightSidebar() {
   return (
-    <aside className="w-80 h-screen bg-background border-l border-border flex flex-col overflow-y-auto">
+    <aside className="w-80 h-screen bg-white dark:bg-[#1C1C1C] border-l border-border flex flex-col overflow-y-auto">
       {/* Notifications */}
       <div className="p-4 border-b border-border">
         <h2 className="font-semibold text-foreground mb-4">Notifications</h2>
@@ -74,7 +74,8 @@ export function RightSidebar() {
                     'bg-blue-500/10 text-blue-500',
                   activity.type === 'modification' &&
                     'bg-orange-500/10 text-orange-500',
-                  activity.type === 'deletion' && 'bg-gray-500/10 text-gray-500'
+                  activity.type === 'deletion' &&
+                    'bg-gray-500/10 text-gray-500',
                 )}
               >
                 {activityIcons[activity.type]}

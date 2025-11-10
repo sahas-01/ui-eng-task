@@ -19,7 +19,7 @@ function DashboardPage() {
   const [sidebarOpen, setSidebarOpen] = useState(false)
 
   return (
-    <div className="flex h-screen overflow-hidden bg-background">
+    <div className="flex h-screen overflow-hidden bg-white dark:bg-[#1C1C1C]">
       {/* Sidebar */}
       <div className="hidden lg:block">
         <Sidebar />
@@ -55,12 +55,9 @@ function DashboardPage() {
           <div className="p-4 lg:p-6 space-y-6">
             {/* eCommerce Section */}
             <div className="space-y-6">
-              {/* Header */}
-              <div>
-                <h1 className="text-2xl font-semibold text-foreground">
-                  eCommerce
-                </h1>
-              </div>
+              <h1 className="text-2xl font-semibold text-foreground">
+                eCommerce
+              </h1>
 
               {/* eCommerce Content Grid */}
               <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">

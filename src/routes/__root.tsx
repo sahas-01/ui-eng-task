@@ -1,7 +1,7 @@
 import { HeadContent, Scripts, createRootRoute } from '@tanstack/react-router'
 import { TanStackRouterDevtoolsPanel } from '@tanstack/react-router-devtools'
 import { TanStackDevtools } from '@tanstack/react-devtools'
-import { useEffect } from 'react'
+import { ThemeProvider } from '@/context/theme-provider'
 
 import appCss from '../styles.css?url'
 
@@ -44,26 +44,15 @@ export const Route = createRootRoute({
 })
 
 function RootDocument({ children }: { children: React.ReactNode }) {
-  useEffect(() => {
-    // Initialize theme from localStorage or default to light
-    const savedTheme = localStorage.getItem('theme')
-    if (savedTheme === 'dark') {
-      document.documentElement.classList.add('dark')
-    } else if (savedTheme === 'light') {
-      document.documentElement.classList.remove('dark')
-    } else if (window.matchMedia('(prefers-color-scheme: dark)').matches) {
-      document.documentElement.classList.add('dark')
-      localStorage.setItem('theme', 'dark')
-    }
-  }, [])
-
   return (
     <html lang="en">
       <head>
         <HeadContent />
       </head>
       <body>
-        {children}
+        <ThemeProvider defaultTheme="system" storageKey="theme">
+          {children}
+        </ThemeProvider>
         {process.env.NODE_ENV === 'development' && (
           <TanStackDevtools
             config={{

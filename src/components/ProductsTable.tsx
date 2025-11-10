@@ -12,7 +12,7 @@ import { products } from '@/data/dashboard'
 
 export const ProductsTable = memo(function ProductsTable() {
   return (
-    <Card className="p-6 rounded-2xl bg-card/50 dark:bg-white/2 border-border/50 h-full flex flex-col">
+    <Card className="p-6 rounded-2xl bg-[#F7F9FB] dark:bg-[#FFFFFF0D] border-border/50 h-full flex flex-col">
       <div className="mb-4">
         <h3 className="text-xl font-semibold text-foreground">
           Top Selling Products
@@ -37,10 +37,7 @@ export const ProductsTable = memo(function ProductsTable() {
         </TableHeader>
         <TableBody>
           {products.map((product, index) => (
-            <TableRow
-              key={index}
-              className="border-0 hover:bg-transparent"
-            >
+            <TableRow key={index} className="border-0 hover:bg-transparent">
               <TableCell className="font-normal text-foreground text-base px-0 py-3">
                 {product.name}
               </TableCell>
@@ -51,7 +48,11 @@ export const ProductsTable = memo(function ProductsTable() {
                 {product.quantity}
               </TableCell>
               <TableCell className="text-right font-normal text-foreground text-base px-0 py-3">
-                ${product.amount.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}
+                $
+                {product.amount.toLocaleString('en-US', {
+                  minimumFractionDigits: 2,
+                  maximumFractionDigits: 2,
+                })}
               </TableCell>
             </TableRow>
           ))}

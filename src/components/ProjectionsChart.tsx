@@ -1,4 +1,4 @@
-import { memo, useMemo } from 'react'
+import { memo, useMemo, useState, useEffect } from 'react'
 import { Card } from '@/components/ui/card'
 import {
   BarChart,
@@ -10,6 +10,7 @@ import {
   ResponsiveContainer,
 } from 'recharts'
 import { projectionData } from '@/data/dashboard'
+import { useTheme } from '@/context/theme-provider'
 
 const tooltipStyles = {
   contentStyle: {
@@ -20,16 +21,36 @@ const tooltipStyles = {
   },
   labelStyle: { color: 'hsl(var(--foreground))' },
   itemStyle: { color: 'hsl(var(--foreground))' },
-  cursor: { fill: 'hsl(var(--accent) / 0.2)' },
+  cursor: false,
 }
 
 export const ProjectionsChart = memo(function ProjectionsChart() {
+  const { theme } = useTheme()
+  const [isDark, setIsDark] = useState(false)
   const tickFormatter = useMemo(() => (value: number) => `${value}M`, [])
 
+  useEffect(() => {
+    const updateTheme = () => {
+      setIsDark(document.documentElement.classList.contains('dark'))
+    }
+
+    updateTheme()
+
+    const observer = new MutationObserver(updateTheme)
+    observer.observe(document.documentElement, {
+      attributes: true,
+      attributeFilter: ['class'],
+    })
+
+    return () => observer.disconnect()
+  }, [theme])
+
+  const gridColor = isDark ? '#FFFFFF1A' : '#1C1C1C0D'
+
   return (
-    <Card className="p-6 rounded-2xl bg-card/50 dark:bg-white/2 border-border/50 h-full flex flex-col">
+    <Card className="p-6 rounded-2xl bg-[#F7F9FB] dark:bg-[#FFFFFF0D] border-border/50 h-full flex flex-col">
       <div className="mb-4">
-        <h3 className="text-lg font-semibold text-foreground">
+        <h3 className="font-inter font-semibold text-sm leading-5 text-foreground">
           Projections vs Actuals
         </h3>
       </div>
@@ -41,10 +62,10 @@ export const ProjectionsChart = memo(function ProjectionsChart() {
             margin={{ top: 10, right: 10, left: -20, bottom: 0 }}
           >
             <CartesianGrid
-              strokeDasharray="3 3"
-              stroke="currentColor"
-              className="stroke-border/30 dark:stroke-border/20"
+              strokeDasharray="0"
+              stroke={gridColor}
               vertical={false}
+              horizontal={true}
             />
             <XAxis
               dataKey="month"
@@ -52,7 +73,12 @@ export const ProjectionsChart = memo(function ProjectionsChart() {
               className="text-muted-foreground text-xs"
               axisLine={false}
               tickLine={false}
-              tick={{ fill: 'hsl(var(--muted-foreground))', fontSize: 12 }}
+              tick={{
+                fill: isDark
+                  ? 'rgba(255, 255, 255, 0.4)'
+                  : 'rgba(28, 28, 28, 0.4)',
+                fontSize: 12,
+              }}
             />
             <YAxis
               stroke="currentColor"
@@ -60,7 +86,12 @@ export const ProjectionsChart = memo(function ProjectionsChart() {
               axisLine={false}
               tickLine={false}
               tickFormatter={tickFormatter}
-              tick={{ fill: 'hsl(var(--muted-foreground))', fontSize: 12 }}
+              tick={{
+                fill: isDark
+                  ? 'rgba(255, 255, 255, 0.4)'
+                  : 'rgba(28, 28, 28, 0.4)',
+                fontSize: 12,
+              }}
               domain={[0, 30]}
               ticks={[0, 10, 20, 30]}
             />
@@ -68,16 +99,18 @@ export const ProjectionsChart = memo(function ProjectionsChart() {
             <Bar
               dataKey="actuals"
               stackId="a"
-              fill="hsl(var(--chart-1))"
+              fill="#A8C5DA"
               radius={[0, 0, 0, 0]}
               maxBarSize={60}
+              isAnimationActive={false}
             />
             <Bar
               dataKey="projections"
               stackId="a"
-              fill="hsl(var(--chart-2))"
+              fill="#CFDFEB"
               radius={[8, 8, 0, 0]}
               maxBarSize={60}
+              isAnimationActive={false}
             />
           </BarChart>
         </ResponsiveContainer>
