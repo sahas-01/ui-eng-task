@@ -11,7 +11,7 @@ interface TopBarProps {
 
 export function TopBar({ breadcrumbs, onSidebarToggle }: TopBarProps) {
   return (
-    <header className="h-14 border-b border-border bg-white dark:bg-[#1C1C1C] sticky top-0 z-10 backdrop-blur-sm">
+    <header className="h-14 border-b border-[#1C1C1C1A] dark:border-[#FFFFFF1A] bg-white dark:bg-[#1C1C1C] sticky top-0 z-10 backdrop-blur-sm">
       <div className="h-full px-4 flex items-center justify-between gap-4">
         {/* Left side - Breadcrumbs */}
         <div className="flex items-center gap-4">

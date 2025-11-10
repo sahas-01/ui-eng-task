@@ -6,7 +6,6 @@ import {
   FolderKanban,
   GraduationCap,
   User,
-  FileText,
   Briefcase,
   BookOpen,
   Share2,
@@ -91,11 +90,12 @@ function NavItemComponent({
   const content = (
     <div
       className={cn(
-        'flex items-center gap-2 px-3 py-2 rounded-lg text-sm transition-all duration-200',
+        'flex items-center gap-3 px-3 py-2 rounded-lg transition-all duration-200',
         'hover:bg-accent/50 dark:hover:bg-accent/30 cursor-pointer group',
-        'text-muted-foreground hover:text-foreground',
-        depth > 0 && 'pl-8',
+        'text-black dark:text-white text-sm font-normal',
+        depth > 0 && 'pl-12',
       )}
+      style={{ fontSize: '14px', lineHeight: '20px' }}
       onClick={() => hasChildren && setIsExpanded(!isExpanded)}
     >
       {item.icon && (
@@ -103,7 +103,7 @@ function NavItemComponent({
           {item.icon}
         </span>
       )}
-      <span className="flex-1 font-medium">{item.title}</span>
+      <span className="flex-1">{item.title}</span>
       {hasChildren && (
         <span className="shrink-0 transition-transform duration-200">
           {isExpanded ? (
@@ -124,7 +124,7 @@ function NavItemComponent({
         content
       )}
       {hasChildren && isExpanded && (
-        <div className="mt-1 space-y-1 animate-in slide-in-from-top-2 duration-200">
+        <div className="mt-1 space-y-0 animate-in slide-in-from-top-2 duration-200">
           {item.children?.map((child, index) => (
             <NavItemComponent key={index} item={child} depth={depth + 1} />
           ))}
@@ -136,48 +136,43 @@ function NavItemComponent({
 
 export function Sidebar() {
   return (
-    <aside className="w-64 h-screen bg-white dark:bg-[#1C1C1C] border-r border-border flex flex-col overflow-y-auto">
+    <aside className="w-64 h-screen bg-white dark:bg-[#1C1C1C] border-r border-[#1C1C1C1A] dark:border-[#FFFFFF1A] flex flex-col overflow-y-auto">
       {/* Logo */}
-      <div className="p-4 border-b border-border">
+      <div className="p-4 border-b border-[#1C1C1C1A] dark:border-[#FFFFFF1A]">
         <Link
           to="/dashboard"
-          className="flex items-center gap-2 text-foreground hover:opacity-80 transition-opacity"
+          className="flex items-center gap-2 text-black dark:text-white hover:opacity-80 transition-opacity"
         >
-          <div className="size-8 rounded-lg bg-primary flex items-center justify-center">
-            <span className="text-primary-foreground font-bold text-sm">B</span>
-          </div>
-          <span className="font-semibold text-lg">ByeWind</span>
+          <img src="/saas-ss.png" alt="ByeWind" className="size-8" />
+          <span className="font-semibold text-base">ByeWind</span>
         </Link>
       </div>
 
       {/* Navigation */}
-      <nav className="flex-1 p-4 space-y-6">
-        {/* Favorites */}
-        <div>
-          <h3 className="text-xs font-semibold text-muted-foreground uppercase tracking-wider mb-2 px-3">
+      <nav className="flex-1 p-4">
+        {/* Favorites and Recently tabs */}
+        <div className="flex items-center gap-6 mb-4 px-3">
+          <h3 className="text-xs font-normal text-muted-foreground">
             Favorites
           </h3>
-          <div className="space-y-1">
-            {navItems.favorites.map((item, index) => (
-              <NavItemComponent key={index} item={item} />
-            ))}
-          </div>
-        </div>
-
-        {/* Recently */}
-        <div>
-          <h3 className="text-xs font-semibold text-muted-foreground uppercase tracking-wider mb-2 px-3">
+          <h3 className="text-xs font-normal text-muted-foreground">
             Recently
           </h3>
-          {/* Empty state - can be populated dynamically */}
+        </div>
+
+        {/* Favorites items */}
+        <div className="space-y-0 mb-6">
+          {navItems.favorites.map((item, index) => (
+            <NavItemComponent key={index} item={item} />
+          ))}
         </div>
 
         {/* Dashboards */}
-        <div>
-          <h3 className="text-xs font-semibold text-muted-foreground uppercase tracking-wider mb-2 px-3">
+        <div className="mb-6">
+          <h3 className="text-xs font-normal text-[#1C1C1C66] dark:text-[#FFFFFF66] mb-3 px-3">
             Dashboards
           </h3>
-          <div className="space-y-1">
+          <div className="space-y-0">
             {navItems.dashboards.map((item, index) => (
               <NavItemComponent key={index} item={item} />
             ))}
@@ -186,10 +181,10 @@ export function Sidebar() {
 
         {/* Pages */}
         <div>
-          <h3 className="text-xs font-semibold text-muted-foreground uppercase tracking-wider mb-2 px-3">
+          <h3 className="text-xs font-normal text-[#1C1C1C66] dark:text-[#FFFFFF66] mb-3 px-3">
             Pages
           </h3>
-          <div className="space-y-1">
+          <div className="space-y-0">
             {navItems.pages.map((item, index) => (
               <NavItemComponent key={index} item={item} />
             ))}

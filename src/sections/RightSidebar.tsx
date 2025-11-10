@@ -19,9 +19,9 @@ const notificationIcons = {
 
 export function RightSidebar() {
   return (
-    <aside className="w-80 h-screen bg-white dark:bg-[#1C1C1C] border-l border-border flex flex-col overflow-y-auto">
+    <aside className="w-80 h-screen bg-white dark:bg-[#1C1C1C] border-l border-[#1C1C1C1A] dark:border-[#FFFFFF1A] flex flex-col overflow-y-auto">
       {/* Notifications */}
-      <div className="p-4 border-b border-border">
+      <div className="p-4 border-b border-[#1C1C1C1A] dark:border-[#FFFFFF1A]">
         <h2 className="font-semibold text-foreground mb-4">Notifications</h2>
         <div className="space-y-4">
           {notifications.map((notification) => (
@@ -56,7 +56,7 @@ export function RightSidebar() {
       </div>
 
       {/* Activities */}
-      <div className="p-4 border-b border-border">
+      <div className="p-4 border-b border-[#1C1C1C1A] dark:border-[#FFFFFF1A]">
         <h2 className="font-semibold text-foreground mb-4">Activities</h2>
         <div className="space-y-4">
           {activities.map((activity) => (

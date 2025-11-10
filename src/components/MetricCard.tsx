@@ -19,9 +19,11 @@ export const MetricCard = memo(function MetricCard({
 
   // Define background styles for specific cards
   const getBackgroundColor = () => {
-    if (title === 'Customers') return 'bg-[#E3F5FF] dark:bg-white/5'
-    if (title === 'Growth') return 'bg-[#E5ECF6] dark:bg-white/5'
-    return 'bg-card/50 dark:bg-white/2'
+    if (title === 'Customers') return 'bg-[#E3F5FF]'
+    if (title === 'Growth') return 'bg-[#E5ECF6]'
+    if (title === 'Orders' || title === 'Revenue')
+      return 'bg-[#F7F9FB] dark:bg-[#FFFFFF0D]'
+    return 'bg-[#F7F9FB] dark:bg-[#FFFFFF0D]'
   }
 
   return (
@@ -34,9 +36,7 @@ export const MetricCard = memo(function MetricCard({
     >
       <div className="space-y-2">
         <div className="flex items-center justify-between">
-          <span className="text-sm font-medium text-foreground/70 dark:text-foreground/60">
-            {title}
-          </span>
+          <span className="text-sm font-medium text-black">{title}</span>
           <div
             className={cn(
               'flex items-center gap-1 text-xs font-medium',
