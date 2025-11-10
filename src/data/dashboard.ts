@@ -39,21 +39,21 @@ export const metrics: MetricCard[] = [
 ]
 
 export const projectionData: ProjectionData[] = [
-  { month: 'Jan', projections: 15, actuals: 18 },
-  { month: 'Feb', projections: 20, actuals: 22 },
-  { month: 'Mar', projections: 18, actuals: 19 },
-  { month: 'Apr', projections: 22, actuals: 25 },
-  { month: 'May', projections: 19, actuals: 21 },
-  { month: 'Jun', projections: 24, actuals: 26 },
+  { month: 'Jan', projections: 4, actuals: 16 },
+  { month: 'Feb', projections: 5, actuals: 20 },
+  { month: 'Mar', projections: 5, actuals: 16 },
+  { month: 'Apr', projections: 6, actuals: 22 },
+  { month: 'May', projections: 3, actuals: 14 },
+  { month: 'Jun', projections: 5, actuals: 20 },
 ]
 
 export const revenueData: RevenueData[] = [
-  { month: 'Jan', current: 10, previous: 15 },
-  { month: 'Feb', current: 15, previous: 12 },
-  { month: 'Mar', current: 12, previous: 18 },
-  { month: 'Apr', current: 18, previous: 14 },
-  { month: 'May', current: 14, previous: 20 },
-  { month: 'Jun', current: 22, previous: 16 },
+  { month: 'Jan', current: 10, previous: 12 },
+  { month: 'Feb', current: 15, previous: 8 },
+  { month: 'Mar', current: 11, previous: 16 },
+  { month: 'Apr', current: 16, previous: 11 },
+  { month: 'May', current: 18, previous: 19 },
+  { month: 'Jun', current: 23, previous: 20 },
 ]
 
 export const locationData: LocationData[] = [

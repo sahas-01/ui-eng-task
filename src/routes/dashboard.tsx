@@ -53,24 +53,39 @@ function DashboardPage() {
 
         <main className="flex-1 overflow-y-auto">
           <div className="p-4 lg:p-6 space-y-6">
-            {/* Header */}
-            <div>
-              <h1 className="text-2xl font-bold text-foreground">
-                eCommerce
-              </h1>
+            {/* eCommerce Section */}
+            <div className="space-y-6">
+              {/* Header */}
+              <div>
+                <h1 className="text-2xl font-semibold text-foreground">
+                  eCommerce
+                </h1>
+              </div>
+
+              {/* eCommerce Content Grid */}
+              <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+                {/* Metrics Grid - Left Side (2x2 Grid) */}
+                <div className="grid grid-cols-2 gap-5">
+                  {metrics.map((metric, index) => (
+                    <MetricCard key={index} {...metric} />
+                  ))}
+                </div>
+
+                {/* Projections Chart - Right Side */}
+                <div>
+                  <ProjectionsChart />
+                </div>
+              </div>
             </div>
 
-            {/* Metrics Grid */}
-            <div className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-4 gap-4">
-              {metrics.map((metric, index) => (
-                <MetricCard key={index} {...metric} />
-              ))}
-            </div>
-
-            {/* Charts Row */}
-            <div className="grid grid-cols-1 xl:grid-cols-2 gap-6">
-              <ProjectionsChart />
-              <RevenueChart />
+            {/* Revenue Charts Row */}
+            <div className="grid grid-cols-1 xl:grid-cols-3 gap-6">
+              <div className="xl:col-span-2">
+                <RevenueChart />
+              </div>
+              <div>
+                <RevenueByLocation />
+              </div>
             </div>
 
             {/* Bottom Row */}
@@ -78,8 +93,7 @@ function DashboardPage() {
               <div className="xl:col-span-2">
                 <ProductsTable />
               </div>
-              <div className="space-y-6">
-                <RevenueByLocation />
+              <div>
                 <SalesChart />
               </div>
             </div>

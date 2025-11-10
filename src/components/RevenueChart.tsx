@@ -25,59 +25,43 @@ const tooltipStyles = {
 
 export const RevenueChart = memo(function RevenueChart() {
   const tickFormatter = useMemo(() => (value: number) => `${value}M`, [])
+
+  // Split data for solid and dashed segments (April is index 3)
+  const solidData = useMemo(() => {
+    return revenueData.map((item, index) => ({
+      ...item,
+      previousSolid: index <= 3 ? item.previous : null,
+      previousDashed: index >= 3 ? item.previous : null,
+    }))
+  }, [])
+
   return (
-    <Card className="p-6">
-      <div className="mb-6 flex items-center justify-between flex-wrap gap-4">
+    <Card className="p-6 rounded-2xl bg-card/50 dark:bg-white/2 border-border/50 h-full flex flex-col">
+      <div className="mb-4 flex items-center justify-between flex-wrap gap-4">
         <h3 className="text-lg font-semibold text-foreground">Revenue</h3>
-        <div className="flex items-center gap-6">
+        <div className="flex items-center gap-6 flex-wrap">
           <div className="flex items-center gap-2">
-            <div className="size-3 rounded-full bg-[hsl(var(--chart-1))]" />
+            <div className="size-2.5 rounded-full bg-[#A8C5DA]" />
             <span className="text-sm text-foreground font-medium">
               Current Week
             </span>
-            <span className="text-sm text-muted-foreground">$58,211</span>
+            <span className="text-sm font-semibold text-foreground">$58,211</span>
           </div>
           <div className="flex items-center gap-2">
-            <div className="size-3 rounded-full bg-[hsl(var(--chart-2))]" />
+            <div className="size-2.5 rounded-full bg-black dark:bg-white" />
             <span className="text-sm text-foreground font-medium">
               Previous Week
             </span>
-            <span className="text-sm text-muted-foreground">$68,768</span>
+            <span className="text-sm font-semibold text-foreground">$68,768</span>
           </div>
         </div>
       </div>
-      <ResponsiveContainer width="100%" height={300}>
-        <LineChart data={revenueData}>
-          <defs>
-            <linearGradient id="currentGradient" x1="0" y1="0" x2="0" y2="1">
-              <stop
-                offset="5%"
-                stopColor="hsl(var(--chart-1))"
-                stopOpacity={0.1}
-              />
-              <stop
-                offset="95%"
-                stopColor="hsl(var(--chart-1))"
-                stopOpacity={0}
-              />
-            </linearGradient>
-            <linearGradient id="previousGradient" x1="0" y1="0" x2="0" y2="1">
-              <stop
-                offset="5%"
-                stopColor="hsl(var(--chart-2))"
-                stopOpacity={0.1}
-              />
-              <stop
-                offset="95%"
-                stopColor="hsl(var(--chart-2))"
-                stopOpacity={0}
-              />
-            </linearGradient>
-          </defs>
+      <ResponsiveContainer width="100%" height={240}>
+        <LineChart data={solidData} margin={{ top: 5, right: 5, left: -20, bottom: 5 }}>
           <CartesianGrid
             strokeDasharray="3 3"
             stroke="currentColor"
-            className="stroke-border/50"
+            className="stroke-border/30 dark:stroke-border/20"
             vertical={false}
           />
           <XAxis
@@ -86,6 +70,7 @@ export const RevenueChart = memo(function RevenueChart() {
             className="text-muted-foreground text-xs"
             axisLine={false}
             tickLine={false}
+            tick={{ fill: 'hsl(var(--muted-foreground))', fontSize: 12 }}
           />
           <YAxis
             stroke="currentColor"
@@ -93,40 +78,57 @@ export const RevenueChart = memo(function RevenueChart() {
             axisLine={false}
             tickLine={false}
             tickFormatter={tickFormatter}
+            tick={{ fill: 'hsl(var(--muted-foreground))', fontSize: 12 }}
+            domain={[0, 30]}
+            ticks={[0, 10, 20, 30]}
           />
           <Tooltip {...tooltipStyles} />
+          {/* Current Week - Light blue curve starting from near zero */}
           <Line
-            type="monotone"
+            type="monotoneX"
             dataKey="current"
-            stroke="hsl(var(--chart-1))"
-            strokeWidth={3}
-            dot={{
-              fill: 'hsl(var(--chart-1))',
-              strokeWidth: 2,
-              r: 4,
-            }}
+            stroke="#A8C5DA"
+            strokeWidth={2.5}
+            dot={false}
             activeDot={{
-              r: 6,
-              strokeWidth: 2,
+              r: 5,
+              strokeWidth: 0,
+              fill: '#A8C5DA',
             }}
-            className="transition-all duration-300"
+            connectNulls={true}
           />
+          {/* Previous Week Solid - Black/White line (Jan to Apr - solid) */}
           <Line
-            type="monotone"
-            dataKey="previous"
-            stroke="hsl(var(--chart-2))"
-            strokeWidth={3}
-            strokeDasharray="5 5"
-            dot={{
-              fill: 'hsl(var(--chart-2))',
-              strokeWidth: 2,
-              r: 4,
-            }}
+            type="monotoneX"
+            dataKey="previousSolid"
+            stroke="black"
+            className="dark:stroke-white"
+            strokeWidth={2.5}
+            dot={false}
             activeDot={{
-              r: 6,
-              strokeWidth: 2,
+              r: 5,
+              strokeWidth: 0,
+              fill: 'black',
+              className: "dark:fill-white"
             }}
-            className="transition-all duration-300"
+            connectNulls={false}
+          />
+          {/* Previous Week Dashed - Black/White line (Apr to Jun - dashed) */}
+          <Line
+            type="monotoneX"
+            dataKey="previousDashed"
+            stroke="black"
+            className="dark:stroke-white"
+            strokeWidth={2.5}
+            strokeDasharray="8 4"
+            dot={false}
+            activeDot={{
+              r: 5,
+              strokeWidth: 0,
+              fill: 'black',
+              className: "dark:fill-white"
+            }}
+            connectNulls={false}
           />
         </LineChart>
       </ResponsiveContainer>

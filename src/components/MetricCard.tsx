@@ -17,36 +17,39 @@ export const MetricCard = memo(function MetricCard({
 }: MetricCardProps) {
   const isPositive = trend === 'up'
 
+  // Define background styles for specific cards
+  const isHighlighted = title === 'Customers' || title === 'Growth'
+
   return (
     <Card
       className={cn(
-        'p-6 transition-all duration-300 hover:shadow-lg hover:shadow-primary/5 hover:-translate-y-1 border-border/50',
-        'bg-card backdrop-blur-sm',
-        className
+        'px-6 py-4 transition-all duration-300 border-border/50 rounded-2xl',
+        isHighlighted
+          ? 'bg-blue-50 dark:bg-white/5'
+          : 'bg-card/50 dark:bg-white/2',
+        className,
       )}
     >
       <div className="space-y-2">
         <div className="flex items-center justify-between">
-          <span className="text-sm font-medium text-muted-foreground">
+          <span className="text-sm font-medium text-foreground/70 dark:text-foreground/60">
             {title}
           </span>
           <div
             className={cn(
-              'flex items-center gap-1 text-xs font-medium px-2 py-1 rounded-full transition-all duration-200',
+              'flex items-center gap-1 text-xs font-medium',
               isPositive
-                ? 'bg-emerald-500/10 text-emerald-600 dark:text-emerald-400'
-                : 'bg-red-500/10 text-red-600 dark:text-red-400'
+                ? 'text-emerald-600 dark:text-emerald-400'
+                : 'text-red-600 dark:text-red-400',
             )}
           >
+            {isPositive ? '+' : ''}
+            {change}%
             {isPositive ? (
-              <TrendingUp className="size-3" />
+              <TrendingUp className="size-3.5" />
             ) : (
-              <TrendingDown className="size-3" />
+              <TrendingDown className="size-3.5" />
             )}
-            <span>
-              {isPositive ? '+' : ''}
-              {change}%
-            </span>
           </div>
         </div>
         <div className="text-3xl font-bold text-foreground tracking-tight">

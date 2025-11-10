@@ -1,74 +1,152 @@
-import { memo, useCallback } from 'react'
+import { memo, useState, useEffect, useMemo } from 'react'
 import { Card } from '@/components/ui/card'
-import { PieChart, Pie, Cell, ResponsiveContainer, Tooltip } from 'recharts'
+import { PieChart, Pie, Cell, ResponsiveContainer, Sector } from 'recharts'
 import { salesData } from '@/data/dashboard'
 
-const COLORS = ['#8B5CF6', '#3B82F6', '#10B981', '#F59E0B']
-
-const tooltipStyles = {
-  contentStyle: {
-    backgroundColor: 'hsl(var(--card))',
-    border: '1px solid hsl(var(--border))',
-    borderRadius: '8px',
-    boxShadow: '0 4px 12px rgba(0, 0, 0, 0.1)',
+// Color mapping for light and dark modes
+const colorMap = {
+  Direct: {
+    light: '#1C1C1C',
+    dark: '#C6C7F8',
+  },
+  Affiliate: {
+    light: '#BAEDBD',
+    dark: '#BAEDBD',
+  },
+  Sponsored: {
+    light: '#95A4FC',
+    dark: '#95A4FC',
+  },
+  'E-mail': {
+    light: '#B1E3FF',
+    dark: '#B1E3FF',
   },
 }
 
-export const SalesChart = memo(function SalesChart() {
-  const formatter = useCallback((value: number) => `$${value.toFixed(2)}`, [])
+const CustomShape = (props: any) => {
+  const { cx, cy, innerRadius, outerRadius, startAngle, endAngle, fill } = props
 
   return (
-    <Card className="p-6">
-      <div className="mb-6">
-        <h3 className="text-lg font-semibold text-foreground">Total Sales</h3>
+    <Sector
+      cx={cx}
+      cy={cy}
+      innerRadius={innerRadius}
+      outerRadius={outerRadius}
+      startAngle={startAngle}
+      endAngle={endAngle}
+      fill={fill}
+      cornerRadius={10}
+    />
+  )
+}
+
+export const SalesChart = memo(function SalesChart() {
+  const [isDark, setIsDark] = useState(false)
+  const [activeIndex, setActiveIndex] = useState<number | null>(null)
+
+  useEffect(() => {
+    const checkTheme = () => {
+      setIsDark(document.documentElement.classList.contains('dark'))
+    }
+
+    checkTheme()
+
+    const observer = new MutationObserver(checkTheme)
+    observer.observe(document.documentElement, {
+      attributes: true,
+      attributeFilter: ['class'],
+    })
+
+    return () => observer.disconnect()
+  }, [])
+
+  const getColor = (name: string) => {
+    const colors = colorMap[name as keyof typeof colorMap]
+    return colors ? (isDark ? colors.dark : colors.light) : '#CCCCCC'
+  }
+
+  const total = useMemo(() => {
+    return salesData.reduce((sum, item) => sum + item.value, 0)
+  }, [])
+
+  const getPercentage = (value: number) => {
+    return ((value / total) * 100).toFixed(1)
+  }
+
+  const onPieEnter = (_: any, index: number) => {
+    setActiveIndex(index)
+  }
+
+  const onPieLeave = () => {
+    setActiveIndex(null)
+  }
+
+  return (
+    <Card className="p-6 rounded-2xl bg-card/50 dark:bg-white/2 border-border/50 h-full flex flex-col">
+      <div>
+        <h3 className="text-xl font-semibold text-foreground">Total Sales</h3>
       </div>
-      <div className="relative">
-        <ResponsiveContainer width="100%" height={250}>
+      <div className="relative flex-1 flex items-center justify-center py-4">
+        <ResponsiveContainer width="100%" height={180}>
           <PieChart>
             <Pie
               data={salesData}
               cx="50%"
               cy="50%"
-              innerRadius={60}
-              outerRadius={90}
-              paddingAngle={2}
+              innerRadius={45}
+              outerRadius={70}
+              paddingAngle={5}
               dataKey="value"
-              className="transition-all duration-300"
+              startAngle={90}
+              endAngle={450}
+              activeShape={CustomShape}
+              onMouseEnter={onPieEnter}
+              onMouseLeave={onPieLeave}
+              cornerRadius={10}
             >
-              {salesData.map((_, index) => (
+              {salesData.map((item) => (
                 <Cell
-                  key={`cell-${index}`}
-                  fill={COLORS[index % COLORS.length]}
-                  className="hover:opacity-80 transition-opacity cursor-pointer"
+                  key={`cell-${item.name}`}
+                  fill={getColor(item.name)}
+                  className="stroke-[8px] stroke-background cursor-pointer transition-all"
                 />
               ))}
             </Pie>
-            <Tooltip {...tooltipStyles} formatter={formatter} />
           </PieChart>
         </ResponsiveContainer>
-        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 text-center">
-          <div className="text-2xl font-bold text-foreground">38.6%</div>
-        </div>
+        {activeIndex !== null && (
+          <div
+            className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 px-5 py-3 rounded-3xl pointer-events-none"
+            style={{
+              backgroundColor: '#1C1C1CCC',
+              backdropFilter: 'blur(40px)',
+              WebkitBackdropFilter: 'blur(40px)',
+            }}
+          >
+            <div className="text-3xl font-semibold text-white tracking-tight">
+              {getPercentage(salesData[activeIndex].value)}%
+            </div>
+          </div>
+        )}
       </div>
-      <div className="mt-6 space-y-3">
-        {salesData.map((item, index) => (
-            <div
-              key={item.name}
-              className="flex items-center justify-between group cursor-pointer hover:bg-accent/30 -mx-2 px-2 py-1.5 rounded-lg transition-all duration-200"
-            >
-              <div className="flex items-center gap-3">
-                <div
-                  className="size-3 rounded-full transition-transform group-hover:scale-125"
-                  style={{ backgroundColor: COLORS[index] }}
-                />
-                <span className="text-sm text-foreground font-medium">
-                  {item.name}
-                </span>
-              </div>
-              <span className="text-sm text-muted-foreground font-medium">
-                ${item.value.toFixed(2)}
+      <div className="space-y-3">
+        {salesData.map((item) => (
+          <div key={item.name} className="flex items-center justify-between">
+            <div className="flex items-center gap-3">
+              <div
+                className="size-2.5 rounded-full"
+                style={{
+                  backgroundColor: getColor(item.name),
+                }}
+              />
+              <span className="text-sm text-foreground font-normal">
+                {item.name}
               </span>
             </div>
+            <span className="text-sm text-foreground font-semibold">
+              ${item.value.toFixed(2)}
+            </span>
+          </div>
         ))}
       </div>
     </Card>
