@@ -108,11 +108,7 @@ export const SalesChart = memo(function SalesChart() {
               cornerRadius={15}
             >
               {salesData.map((item) => (
-                <Cell
-                  key={`cell-${item.name}`}
-                  fill={getColor(item.name)}
-                  className="stroke-[8px] stroke-background cursor-pointer transition-all"
-                />
+                <Cell key={`cell-${item.name}`} fill={getColor(item.name)} />
               ))}
             </Pie>
           </PieChart>
