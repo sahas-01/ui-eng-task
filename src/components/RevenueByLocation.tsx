@@ -28,7 +28,7 @@ export const RevenueByLocation = memo(function RevenueByLocation() {
   return (
     <Card className="p-6 rounded-2xl bg-[#F7F9FB] dark:bg-[#FFFFFF0D] border-border/50 flex flex-col h-full">
       <div className="mb-4">
-        <h3 className="font-inter font-semibold text-sm leading-5 text-foreground">
+        <h3 className="inter-semibold text-sm text-foreground">
           Revenue by Location
         </h3>
       </div>

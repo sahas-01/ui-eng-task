@@ -17,7 +17,7 @@ export function TopBar({
   onRightSidebarToggle,
 }: TopBarProps) {
   return (
-    <header className="h-[68px] border-b border-[#1C1C1C1A] dark:border-[#FFFFFF1A] bg-white dark:bg-[#1C1C1C] sticky top-0 z-10 backdrop-blur-sm">
+    <header className="h-[70px] border-b border-[#1C1C1C1A] dark:border-[#FFFFFF1A] bg-white dark:bg-[#1C1C1C] sticky top-0 z-10 backdrop-blur-sm">
       <div className="h-full px-4 flex items-center justify-between gap-4">
         {/* Left side - Breadcrumbs */}
         <div className="flex items-center gap-4">
@@ -26,7 +26,7 @@ export function TopBar({
           </Button>
           <Star className="size-4 text-black dark:text-white" />
           {breadcrumbs && breadcrumbs.length > 0 && (
-            <nav className="hidden sm:flex items-center gap-2 text-sm">
+            <nav className="flex items-center gap-2 text-sm">
               {breadcrumbs.map((crumb, index) => (
                 <div key={index} className="flex items-center gap-2">
                   {index > 0 && (

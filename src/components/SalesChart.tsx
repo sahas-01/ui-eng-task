@@ -85,9 +85,7 @@ export const SalesChart = memo(function SalesChart() {
   return (
     <Card className="p-6 rounded-2xl bg-[#F7F9FB] dark:bg-[#FFFFFF0D] border-border/50 h-full flex flex-col">
       <div>
-        <h3 className="font-inter font-semibold text-sm leading-5 text-foreground">
-          Total Sales
-        </h3>
+        <h3 className="inter-semibold text-sm text-foreground">Total Sales</h3>
       </div>
       <div className="relative flex-1 flex items-center justify-center py-4">
         <ResponsiveContainer width="100%" height={200}>

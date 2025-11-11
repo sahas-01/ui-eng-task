@@ -48,9 +48,7 @@ export const RevenueChart = memo(function RevenueChart() {
   return (
     <Card className="p-6 rounded-2xl bg-[#F7F9FB] dark:bg-[#FFFFFF0D] border-border/50 flex flex-col h-full">
       <div className="mb-4 flex items-center justify-between flex-wrap gap-4">
-        <h3 className="font-inter font-semibold text-sm leading-5 text-foreground">
-          Revenue
-        </h3>
+        <h3 className="inter-semibold text-sm text-foreground">Revenue</h3>
         <div className="flex items-center gap-6 flex-wrap">
           <div className="flex items-center gap-2">
             <div className="size-2.5 rounded-full bg-[#A8C5DA]" />

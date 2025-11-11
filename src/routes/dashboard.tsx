@@ -20,8 +20,7 @@ function DashboardPage() {
   const [rightSidebarOpen, setRightSidebarOpen] = useState(true)
 
   return (
-    <div className="flex h-screen overflow-hidden bg-white dark:bg-[#1C1C1C]">
-      {/* Left Sidebar */}
+    <div className="flex h-screen bg-background text-foreground">
       {leftSidebarOpen && (
         <div className="hidden lg:block">
           <Sidebar />
@@ -31,7 +30,7 @@ function DashboardPage() {
       {/* Mobile left sidebar */}
       {leftSidebarOpen && (
         <div
-          className="fixed inset-0 z-50 lg:hidden"
+          className="fixed inset-0 z-50 sm:hidden"
           onClick={() => setLeftSidebarOpen(false)}
         >
           <div className="absolute inset-0 bg-background/80 backdrop-blur-sm" />
@@ -39,7 +38,7 @@ function DashboardPage() {
             className="absolute left-0 top-0 h-full animate-in slide-in-from-left duration-200"
             onClick={(e) => e.stopPropagation()}
           >
-            <Sidebar />
+            <Sidebar onClose={() => setLeftSidebarOpen(false)} />
           </div>
         </div>
       )}
@@ -66,16 +65,14 @@ function DashboardPage() {
               {/* eCommerce Content Grid */}
               <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
                 {/* Metrics Grid - Left Side (2x2 Grid) */}
-                <div className="grid grid-cols-2 gap-5">
+                <div className="grid grid-cols-1 lg:grid-cols-2 gap-5">
                   {metrics.map((metric, index) => (
                     <MetricCard key={index} {...metric} />
                   ))}
                 </div>
 
                 {/* Projections Chart - Right Side */}
-                <div>
-                  <ProjectionsChart />
-                </div>
+                <ProjectionsChart />
               </div>
             </div>
 

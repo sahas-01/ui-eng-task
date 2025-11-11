@@ -50,7 +50,7 @@ export const ProjectionsChart = memo(function ProjectionsChart() {
   return (
     <Card className="p-6 rounded-2xl bg-[#F7F9FB] dark:bg-[#FFFFFF0D] border-border/50 h-full flex flex-col">
       <div className="mb-4">
-        <h3 className="font-inter font-semibold text-sm leading-5 text-foreground">
+        <h3 className="inter-semibold text-sm text-foreground">
           Projections vs Actuals
         </h3>
       </div>

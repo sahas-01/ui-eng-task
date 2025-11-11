@@ -16,6 +16,7 @@ export const MetricCard = memo(function MetricCard({
   className,
 }: MetricCardProps) {
   const isPositive = trend === 'up'
+  const isOrdersOrRevenue = title === 'Orders' || title === 'Revenue'
 
   // Define background styles for specific cards
   const getBackgroundColor = () => {
@@ -26,31 +27,42 @@ export const MetricCard = memo(function MetricCard({
     return 'bg-[#F7F9FB] dark:bg-[#FFFFFF0D]'
   }
 
+  const textColorClass = isOrdersOrRevenue
+    ? 'text-black dark:text-white'
+    : 'text-black'
+
   return (
     <Card
       className={cn(
-        'px-6 py-4 transition-all duration-300 border-border/50 rounded-2xl',
+        'px-6 py-4 min-h-32 min-w-[200px] shadow-none border-none transition-all duration-300 rounded-2xl',
         getBackgroundColor(),
         className,
       )}
     >
       <div className="flex items-start justify-between">
-        <div>
-          <p className="text-sm font-medium text-muted-foreground">{title}</p>
-          <h3 className="text-2xl font-semibold">{value}</h3>
-        </div>
-        <div
-          className={cn(
-            'flex items-center gap-1 text-sm font-medium',
-            isPositive ? 'text-green-600' : 'text-red-600',
-          )}
-        >
-          {isPositive ? (
-            <TrendingUp className="h-4 w-4" aria-label="Trending up" />
-          ) : (
-            <TrendingDown className="h-4 w-4" aria-label="Trending down" />
-          )}
-          <span>{change}</span>
+        <div className="flex flex-col gap-y-3.5">
+          <p className={cn('text-sm inter-semibold', textColorClass)}>
+            {title}
+          </p>
+          <div className="flex gap-x-10 items-center">
+            <h1 className={cn('text-4xl inter-semibold', textColorClass)}>
+              {value}
+            </h1>
+            <div
+              className={cn(
+                'flex items-center gap-1 text-sm font-normal',
+                textColorClass,
+              )}
+            >
+              <span>{change}</span>
+
+              {isPositive ? (
+                <TrendingUp className="h-4 w-4" aria-label="Trending up" />
+              ) : (
+                <TrendingDown className="h-4 w-4" aria-label="Trending down" />
+              )}
+            </div>
+          </div>
         </div>
       </div>
     </Card>

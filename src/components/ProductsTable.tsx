@@ -14,7 +14,7 @@ export const ProductsTable = memo(function ProductsTable() {
   return (
     <Card className="p-6 rounded-2xl bg-[#F7F9FB] dark:bg-[#FFFFFF0D] border-border/50 h-full flex flex-col">
       <div className="mb-4">
-        <h3 className="text-xl font-semibold text-foreground">
+        <h3 className="inter-semibold text-sm text-foreground">
           Top Selling Products
         </h3>
       </div>

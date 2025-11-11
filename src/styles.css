@@ -1,6 +1,7 @@
 @import 'tailwindcss';
 
 @import 'tw-animate-css';
+@import url('https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&family=Montserrat:ital,wght@0,100..900;1,100..900&family=Nunito:ital,wght@0,200..1000;1,200..1000&family=Unbounded:wght@200..900&display=swap');
 
 @custom-variant dark (&:is(.dark *));
 
@@ -150,6 +151,30 @@ code {
   [class*="group-hover:"] {
     will-change: transform, opacity;
   }
+}
+
+.inter-normal {
+  font-family: 'Inter', sans-serif;
+  font-weight: 400;
+  font-style: normal;
+}
+
+.inter-medium {
+  font-family: 'Inter', sans-serif;
+  font-weight: 500;
+  font-style: normal;
+}
+
+.inter-semibold {
+  font-family: 'Inter', sans-serif;
+  font-weight: 600;
+  font-style: normal;
+}
+
+.inter-bold {
+  font-family: 'Inter', sans-serif;
+  font-weight: 700;
+  font-style: normal;
 }
 
 ::view-transition-old(root), ::view-transition-new(root) {
