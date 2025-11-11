@@ -251,30 +251,35 @@ export const activities: Activity[] = [
     type: 'bug',
     title: 'You have a bug that needs...',
     time: 'Just now',
+    avatar: '/sidebar/act-1.png',
   },
   {
     id: '2',
     type: 'release',
     title: 'Released a new version',
     time: '59 minutes ago',
+    avatar: '/sidebar/act-2.png',
   },
   {
     id: '3',
     type: 'submission',
     title: 'Submitted a bug',
     time: '12 hours ago',
+    avatar: '/sidebar/act-3.png',
   },
   {
     id: '4',
     type: 'modification',
     title: 'Modified A data in Page X',
     time: 'Today, 11:59 AM',
+    avatar: '/sidebar/act-4.png',
   },
   {
     id: '5',
     type: 'deletion',
     title: 'Deleted a page in Project X',
     time: 'Feb 2, 2023',
+    avatar: '/sidebar/act-5.png',
   },
 ]
 
@@ -282,31 +287,31 @@ export const contacts: Contact[] = [
   {
     id: '1',
     name: 'Natali Craig',
-    avatar: 'https://i.pravatar.cc/150?img=1',
+    avatar: '/sidebar/natalie.png',
   },
   {
     id: '2',
     name: 'Drew Cano',
-    avatar: 'https://i.pravatar.cc/150?img=33',
+    avatar: '/sidebar/drew.png',
   },
   {
     id: '3',
     name: 'Orlando Diggs',
-    avatar: 'https://i.pravatar.cc/150?img=12',
+    avatar: '/sidebar/orlando.png',
   },
   {
     id: '4',
     name: 'Andi Lane',
-    avatar: 'https://i.pravatar.cc/150?img=32',
+    avatar: '/sidebar/andi.png',
   },
   {
     id: '5',
     name: 'Kate Morrison',
-    avatar: 'https://i.pravatar.cc/150?img=5',
+    avatar: '/sidebar/kate.png',
   },
   {
     id: '6',
     name: 'Koray Okumus',
-    avatar: 'https://i.pravatar.cc/150?img=15',
+    avatar: '/sidebar/koray.png',
   },
 ]
