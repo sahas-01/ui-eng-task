@@ -34,28 +34,23 @@ export const MetricCard = memo(function MetricCard({
         className,
       )}
     >
-      <div className="space-y-2">
-        <div className="flex items-center justify-between">
-          <span className="text-sm font-medium text-black">{title}</span>
-          <div
-            className={cn(
-              'flex items-center gap-1 text-xs font-medium',
-              isPositive
-                ? 'text-emerald-600 dark:text-emerald-400'
-                : 'text-red-600 dark:text-red-400',
-            )}
-          >
-            {isPositive ? '+' : ''}
-            {change}%
-            {isPositive ? (
-              <TrendingUp className="size-3.5" />
-            ) : (
-              <TrendingDown className="size-3.5" />
-            )}
-          </div>
+      <div className="flex items-start justify-between">
+        <div>
+          <p className="text-sm font-medium text-muted-foreground">{title}</p>
+          <h3 className="text-2xl font-semibold">{value}</h3>
         </div>
-        <div className="text-3xl font-bold text-foreground tracking-tight">
-          {value}
+        <div
+          className={cn(
+            'flex items-center gap-1 text-sm font-medium',
+            isPositive ? 'text-green-600' : 'text-red-600',
+          )}
+        >
+          {isPositive ? (
+            <TrendingUp className="h-4 w-4" aria-label="Trending up" />
+          ) : (
+            <TrendingDown className="h-4 w-4" aria-label="Trending down" />
+          )}
+          <span>{change}</span>
         </div>
       </div>
     </Card>

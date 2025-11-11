@@ -1,19 +1,16 @@
 import { useState } from 'react'
 import { Link } from '@tanstack/react-router'
-import {
-  LayoutDashboard,
-  ShoppingCart,
-  FolderKanban,
-  GraduationCap,
-  User,
-  Briefcase,
-  BookOpen,
-  Share2,
-  Star,
-  ChevronRight,
-  ChevronDown,
-} from 'lucide-react'
+import { ChevronRight, ChevronDown } from 'lucide-react'
 import { cn } from '@/lib/utils'
+import { DefaultIcon } from '@/components/icons/SideBar/DefaultIcon'
+import { EcommerceIcon } from '@/components/icons/SideBar/EcommerceIcon'
+import { ProjectsIcon } from '@/components/icons/SideBar/ProjectsIcon'
+import { OnlineCoursesIcon } from '@/components/icons/SideBar/OnlineCoursesIcon'
+import { UserProfileIcon } from '@/components/icons/SideBar/UserProfileIcon'
+import { UserAccIcon } from '@/components/icons/SideBar/UserAccIcon'
+import { CorporateIcon } from '@/components/icons/SideBar/CorporateIcon'
+import { BlogIcon } from '@/components/icons/SideBar/BlogIcon'
+import { ChatIcon } from '@/components/icons/SideBar/ChatIcon'
 
 interface NavItem {
   title: string
@@ -25,39 +22,39 @@ interface NavItem {
 
 const navItems = {
   favorites: [
-    { title: 'Overview', icon: <Star className="size-4" />, href: '/' },
+    { title: 'Overview', icon: <DefaultIcon />, href: '/' },
     {
       title: 'Projects',
-      icon: <FolderKanban className="size-4" />,
+      icon: <ProjectsIcon />,
       href: '/projects',
     },
   ],
   dashboards: [
     {
       title: 'Default',
-      icon: <LayoutDashboard className="size-4" />,
+      icon: <DefaultIcon />,
       href: '/dashboard',
     },
     {
       title: 'eCommerce',
-      icon: <ShoppingCart className="size-4" />,
+      icon: <EcommerceIcon />,
       href: '/dashboard',
     },
     {
       title: 'Projects',
-      icon: <FolderKanban className="size-4" />,
+      icon: <ProjectsIcon />,
       href: '/dashboard',
     },
     {
       title: 'Online Courses',
-      icon: <GraduationCap className="size-4" />,
+      icon: <OnlineCoursesIcon />,
       href: '/dashboard',
     },
   ],
   pages: [
     {
       title: 'User Profile',
-      icon: <User className="size-4" />,
+      icon: <UserProfileIcon />,
       children: [
         { title: 'Overview', icon: null, href: '/profile/overview' },
         { title: 'Projects', icon: null, href: '/profile/projects' },
@@ -66,14 +63,14 @@ const navItems = {
         { title: 'Followers', icon: null, href: '/profile/followers' },
       ],
     },
-    { title: 'Account', icon: <User className="size-4" />, href: '/account' },
+    { title: 'Account', icon: <UserAccIcon />, href: '/account' },
     {
       title: 'Corporate',
-      icon: <Briefcase className="size-4" />,
+      icon: <CorporateIcon />,
       href: '/corporate',
     },
-    { title: 'Blog', icon: <BookOpen className="size-4" />, href: '/blog' },
-    { title: 'Social', icon: <Share2 className="size-4" />, href: '/social' },
+    { title: 'Blog', icon: <BlogIcon />, href: '/blog' },
+    { title: 'Social', icon: <ChatIcon />, href: '/social' },
   ],
 }
 
@@ -90,7 +87,7 @@ function NavItemComponent({
   const content = (
     <div
       className={cn(
-        'flex items-center gap-3 px-3 py-2 rounded-lg transition-all duration-200',
+        'flex items-center px-3 py-2 rounded-lg transition-all duration-200',
         'hover:bg-accent/50 dark:hover:bg-accent/30 cursor-pointer group',
         'text-black dark:text-white text-sm font-normal',
         depth > 0 && 'pl-12',
@@ -136,15 +133,15 @@ function NavItemComponent({
 
 export function Sidebar() {
   return (
-    <aside className="w-64 h-screen bg-white dark:bg-[#1C1C1C] border-r border-[#1C1C1C1A] dark:border-[#FFFFFF1A] flex flex-col overflow-y-auto">
+    <aside className="w-52 h-screen bg-white dark:bg-[#1C1C1C] border-r border-[#1C1C1C1A] dark:border-[#FFFFFF1A] flex flex-col overflow-y-auto">
       {/* Logo */}
-      <div className="p-4 border-b border-[#1C1C1C1A] dark:border-[#FFFFFF1A]">
+      <div className="p-4">
         <Link
           to="/dashboard"
           className="flex items-center gap-2 text-black dark:text-white hover:opacity-80 transition-opacity"
         >
           <img src="/saas-ss.png" alt="ByeWind" className="size-8" />
-          <span className="font-semibold text-base">ByeWind</span>
+          <span className="font-medium text-sm">ByeWind</span>
         </Link>
       </div>
 

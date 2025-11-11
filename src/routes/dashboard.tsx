@@ -16,20 +16,23 @@ export const Route = createFileRoute('/dashboard')({
 })
 
 function DashboardPage() {
-  const [sidebarOpen, setSidebarOpen] = useState(false)
+  const [leftSidebarOpen, setLeftSidebarOpen] = useState(true)
+  const [rightSidebarOpen, setRightSidebarOpen] = useState(true)
 
   return (
     <div className="flex h-screen overflow-hidden bg-white dark:bg-[#1C1C1C]">
-      {/* Sidebar */}
-      <div className="hidden lg:block">
-        <Sidebar />
-      </div>
+      {/* Left Sidebar */}
+      {leftSidebarOpen && (
+        <div className="hidden lg:block">
+          <Sidebar />
+        </div>
+      )}
 
-      {/* Mobile sidebar */}
-      {sidebarOpen && (
+      {/* Mobile left sidebar */}
+      {leftSidebarOpen && (
         <div
           className="fixed inset-0 z-50 lg:hidden"
-          onClick={() => setSidebarOpen(false)}
+          onClick={() => setLeftSidebarOpen(false)}
         >
           <div className="absolute inset-0 bg-background/80 backdrop-blur-sm" />
           <div
@@ -48,7 +51,8 @@ function DashboardPage() {
             { label: 'Dashboards' },
             { label: 'Default', href: '/dashboard' },
           ]}
-          onSidebarToggle={() => setSidebarOpen(!sidebarOpen)}
+          onLeftSidebarToggle={() => setLeftSidebarOpen(!leftSidebarOpen)}
+          onRightSidebarToggle={() => setRightSidebarOpen(!rightSidebarOpen)}
         />
 
         <main className="flex-1 overflow-y-auto">
@@ -99,9 +103,11 @@ function DashboardPage() {
       </div>
 
       {/* Right Sidebar */}
-      <div className="hidden xl:block">
-        <RightSidebar />
-      </div>
+      {rightSidebarOpen && (
+        <div className="hidden xl:block">
+          <RightSidebar />
+        </div>
+      )}
     </div>
   )
 }
