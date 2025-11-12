@@ -1,6 +1,8 @@
 {
     "buildCommand": "pnpm run build",
-    "outputDirectory": "dist",
+    "outputDirectory": "dist/public",
+    "cleanUrls": false,
+    "trailingSlash": false,
     "rewrites": [
         {
             "source": "/(.*)",
