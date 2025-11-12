@@ -36,6 +36,7 @@ import {
   Search,
   Calendar,
   MoreHorizontal,
+  X,
 } from 'lucide-react'
 import { orders as ordersData } from '@/data/dashboard'
 import type { Order } from '@/types/dashboard'
@@ -58,7 +59,11 @@ function OrdersPage() {
   const [rightSidebarOpen, setRightSidebarOpen] = useState(true)
   const [selectedOrders, setSelectedOrders] = useState<string[]>([])
   const [searchQuery, setSearchQuery] = useState('')
-  const [statusFilter] = useState<string>('all')
+  const [statusFilter, setStatusFilter] = useState<string>('all')
+  const [nameFilter, setNameFilter] = useState('')
+  const [orderIdFilter, setOrderIdFilter] = useState('')
+  const [dateFilter, setDateFilter] = useState('')
+  const [isFilterOpen, setIsFilterOpen] = useState(false)
   const [sortField, setSortField] = useState<keyof Order>('id')
   const [sortDirection, setSortDirection] = useState<'asc' | 'desc'>('asc')
   const [currentPage, setCurrentPage] = useState(1)
@@ -75,7 +80,23 @@ function OrdersPage() {
       const matchesStatus =
         statusFilter === 'all' || order.status === statusFilter
 
-      return matchesSearch && matchesStatus
+      const matchesName =
+        nameFilter === '' ||
+        order.user.name.toLowerCase().includes(nameFilter.toLowerCase())
+
+      const matchesOrderId =
+        orderIdFilter === '' ||
+        order.id.toLowerCase().includes(orderIdFilter.toLowerCase())
+
+      const matchesDate = dateFilter === '' || order.date.includes(dateFilter)
+
+      return (
+        matchesSearch &&
+        matchesStatus &&
+        matchesName &&
+        matchesOrderId &&
+        matchesDate
+      )
     })
 
     filtered.sort((a, b) => {
@@ -97,7 +118,15 @@ function OrdersPage() {
     })
 
     return filtered
-  }, [searchQuery, statusFilter, sortField, sortDirection])
+  }, [
+    searchQuery,
+    statusFilter,
+    sortField,
+    sortDirection,
+    nameFilter,
+    orderIdFilter,
+    dateFilter,
+  ])
 
   const paginatedOrders = useMemo(() => {
     const startIndex = (currentPage - 1) * itemsPerPage
@@ -185,7 +214,120 @@ function OrdersPage() {
             <div className="mb-4 bg-[#F7F9FB] dark:bg-[#FFFFFF0D] rounded-lg px-4 py-2 flex flex-col sm:flex-row gap-3 items-start sm:items-center justify-between">
               <div className="flex gap-4">
                 <Plus className="size-4 cursor-pointer" />
-                <SlidersHorizontal className="size-4 cursor-pointer" />
+                <div className="relative">
+                  <Button
+                    variant="ghost"
+                    size="icon-sm"
+                    className="p-0 cursor-pointer h-auto w-auto"
+                    onClick={() => setIsFilterOpen(!isFilterOpen)}
+                  >
+                    <SlidersHorizontal className="size-4 cursor-pointer" />
+                  </Button>
+
+                  {isFilterOpen && (
+                    <div className="absolute left-0 mt-2 w-64 bg-white dark:bg-[#1C1C1C] border border-[#1C1C1C1A] dark:border-[#FFFFFF1A] rounded-lg shadow-lg z-50 p-4">
+                      <div className="flex items-center justify-between mb-4">
+                        <h3 className="text-sm font-semibold text-foreground">
+                          Filters
+                        </h3>
+                        <button
+                          onClick={() => setIsFilterOpen(false)}
+                          className="p-1 hover:bg-accent/50 rounded transition-colors"
+                        >
+                          <X className="size-4" />
+                        </button>
+                      </div>
+
+                      <div className="space-y-3">
+                        {/* Order ID Filter */}
+                        <div>
+                          <label className="text-xs font-medium text-foreground mb-1.5 block">
+                            Order ID
+                          </label>
+                          <Input
+                            placeholder="Filter by Order ID"
+                            value={orderIdFilter}
+                            onChange={(e) => {
+                              setOrderIdFilter(e.target.value)
+                              setCurrentPage(1)
+                            }}
+                            className="h-8 text-sm"
+                          />
+                        </div>
+
+                        {/* Name Filter */}
+                        <div>
+                          <label className="text-xs font-medium text-foreground mb-1.5 block">
+                            Name
+                          </label>
+                          <Input
+                            placeholder="Filter by Name"
+                            value={nameFilter}
+                            onChange={(e) => {
+                              setNameFilter(e.target.value)
+                              setCurrentPage(1)
+                            }}
+                            className="h-8 text-sm"
+                          />
+                        </div>
+
+                        {/* Date Filter */}
+                        <div>
+                          <label className="text-xs font-medium text-foreground mb-1.5 block">
+                            Date
+                          </label>
+                          <Input
+                            placeholder="Filter by Date (e.g., Jan 15)"
+                            value={dateFilter}
+                            onChange={(e) => {
+                              setDateFilter(e.target.value)
+                              setCurrentPage(1)
+                            }}
+                            className="h-8 text-sm"
+                          />
+                        </div>
+
+                        {/* Status Filter */}
+                        <div>
+                          <label className="text-xs font-medium text-foreground mb-1.5 block">
+                            Status
+                          </label>
+                          <select
+                            value={statusFilter}
+                            onChange={(e) => {
+                              setStatusFilter(e.target.value)
+                              setCurrentPage(1)
+                            }}
+                            className="w-full h-8 text-sm px-2 rounded border border-[#1C1C1C1A] dark:border-[#FFFFFF1A] bg-white dark:bg-[#FFFFFF05] text-foreground"
+                          >
+                            <option value="all">All Statuses</option>
+                            <option value="In Progress">In Progress</option>
+                            <option value="Complete">Complete</option>
+                            <option value="Pending">Pending</option>
+                            <option value="Approved">Approved</option>
+                            <option value="Rejected">Rejected</option>
+                          </select>
+                        </div>
+
+                        {/* Clear Filters Button */}
+                        <Button
+                          variant="outline"
+                          size="sm"
+                          className="w-full cursor-pointer mt-4"
+                          onClick={() => {
+                            setOrderIdFilter('')
+                            setNameFilter('')
+                            setDateFilter('')
+                            setStatusFilter('all')
+                            setCurrentPage(1)
+                          }}
+                        >
+                          Clear Filters
+                        </Button>
+                      </div>
+                    </div>
+                  )}
+                </div>
                 <DropdownMenu>
                   <DropdownMenuTrigger asChild>
                     <ArrowUpDown className="size-4 cursor-pointer" />
