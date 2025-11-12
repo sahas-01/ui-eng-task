@@ -34,7 +34,7 @@ export const MetricCard = memo(function MetricCard({
   return (
     <Card
       className={cn(
-        'px-6 py-4 min-h-32 min-w-[200px] shadow-none border-none transition-all duration-300 rounded-2xl',
+        'px-8 pt-10 pb-4 min-h-32 min-w-[200px] shadow-none border-none transition-all duration-300 rounded-2xl',
         getBackgroundColor(),
         className,
       )}
@@ -44,17 +44,20 @@ export const MetricCard = memo(function MetricCard({
           <p className={cn('text-sm inter-semibold', textColorClass)}>
             {title}
           </p>
-          <div className="flex gap-x-10 items-center">
-            <h1 className={cn('text-4xl inter-semibold', textColorClass)}>
+          <div className="flex gap-x-14 items-center">
+            <h1 className={cn('text-3xl inter-semibold', textColorClass)}>
               {value}
             </h1>
             <div
               className={cn(
-                'flex items-center gap-1 text-sm font-normal',
+                'flex items-center gap-2 text-sm font-normal',
                 textColorClass,
               )}
             >
-              <span>{change}</span>
+              <span>
+                {isPositive ? '+' : '-'}
+                {change}
+              </span>
 
               {isPositive ? (
                 <TrendingUp className="h-4 w-4" aria-label="Trending up" />

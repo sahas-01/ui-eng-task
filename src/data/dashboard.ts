@@ -21,7 +21,7 @@ export const metrics: MetricCard[] = [
   {
     title: 'Orders',
     value: '1,219',
-    change: -0.03,
+    change: 0.03,
     trend: 'down',
   },
   {
@@ -108,7 +108,7 @@ export const orders: Order[] = [
     id: '#CM9801',
     user: {
       name: 'Natali Craig',
-      avatar: 'https://i.pravatar.cc/150?img=1',
+      avatar: '/sidebar/natalie.png',
     },
     project: 'Landing Page',
     address: 'Meadow Lane Oakland',
@@ -119,7 +119,7 @@ export const orders: Order[] = [
     id: '#CM9802',
     user: {
       name: 'Kate Morrison',
-      avatar: 'https://i.pravatar.cc/150?img=5',
+      avatar: '/sidebar/kate.png',
     },
     project: 'CRM Admin pages',
     address: 'Larry San Francisco',
@@ -130,7 +130,7 @@ export const orders: Order[] = [
     id: '#CM9803',
     user: {
       name: 'Drew Cano',
-      avatar: 'https://i.pravatar.cc/150?img=33',
+      avatar: '/sidebar/drew.png',
     },
     project: 'Client Project',
     address: 'Bagwell Avenue Ocala',
@@ -141,7 +141,7 @@ export const orders: Order[] = [
     id: '#CM9804',
     user: {
       name: 'Orlando Diggs',
-      avatar: 'https://i.pravatar.cc/150?img=12',
+      avatar: '/sidebar/orlando.png',
     },
     project: 'Admin Dashboard',
     address: 'Washburn Baton Rouge',
@@ -152,7 +152,7 @@ export const orders: Order[] = [
     id: '#CM9805',
     user: {
       name: 'Andi Lane',
-      avatar: 'https://i.pravatar.cc/150?img=32',
+      avatar: '/sidebar/andi.png',
     },
     project: 'App Landing Page',
     address: 'Nest Lane Olivette',
@@ -160,59 +160,26 @@ export const orders: Order[] = [
     status: 'Rejected',
   },
   {
-    id: '#CM9801',
+    id: '#CM9806',
     user: {
-      name: 'Natali Craig',
-      avatar: 'https://i.pravatar.cc/150?img=1',
+      name: 'Koray Okumus',
+      avatar: '/sidebar/koray.png',
     },
-    project: 'Landing Page',
-    address: 'Meadow Lane Oakland',
-    date: 'Just now',
+    project: 'Marketing Landing Page',
+    address: 'Carlyle St. Detroit',
+    date: 'Jan 29, 2023',
     status: 'In Progress',
   },
   {
-    id: '#CM9802',
+    id: '#CM9807',
     user: {
       name: 'Kate Morrison',
-      avatar: 'https://i.pravatar.cc/150?img=5',
+      avatar: '/sidebar/kate.png',
     },
     project: 'CRM Admin pages',
     address: 'Larry San Francisco',
-    date: 'A minute ago',
+    date: 'Jan 21, 2023',
     status: 'Complete',
-  },
-  {
-    id: '#CM9803',
-    user: {
-      name: 'Drew Cano',
-      avatar: 'https://i.pravatar.cc/150?img=33',
-    },
-    project: 'Client Project',
-    address: 'Bagwell Avenue Ocala',
-    date: '1 hour ago',
-    status: 'Pending',
-  },
-  {
-    id: '#CM9804',
-    user: {
-      name: 'Orlando Diggs',
-      avatar: 'https://i.pravatar.cc/150?img=12',
-    },
-    project: 'Admin Dashboard',
-    address: 'Washburn Baton Rouge',
-    date: 'Yesterday',
-    status: 'Approved',
-  },
-  {
-    id: '#CM9805',
-    user: {
-      name: 'Andi Lane',
-      avatar: 'https://i.pravatar.cc/150?img=32',
-    },
-    project: 'App Landing Page',
-    address: 'Nest Lane Olivette',
-    date: 'Feb 2, 2023',
-    status: 'Rejected',
   },
 ]
 
@@ -222,6 +189,7 @@ export const notifications: Notification[] = [
     type: 'bug',
     title: 'You have a bug that needs...',
     time: 'Just now',
+    bgColor: '#E3F5FF',
   },
   {
     id: '2',
@@ -229,19 +197,21 @@ export const notifications: Notification[] = [
     title: 'New user registered',
     time: '59 minutes ago',
     avatar: 'https://i.pravatar.cc/150?img=20',
+    bgColor: '#E5ECF6',
   },
   {
     id: '3',
     type: 'bug',
     title: 'You have a bug that needs...',
     time: '12 hours ago',
+    bgColor: '#E3F5FF',
   },
   {
     id: '4',
     type: 'subscription',
     title: 'Andi Lane subscribed to you',
     time: 'Today, 11:59 AM',
-    avatar: 'https://i.pravatar.cc/150?img=32',
+    bgColor: '#E5ECF6',
   },
 ]
 

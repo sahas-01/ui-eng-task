@@ -1,3 +1,5 @@
+import React from 'react'
+
 export interface MetricCard {
   title: string
   value: string | number
@@ -37,7 +39,8 @@ export interface Notification {
   type: 'bug' | 'user' | 'subscription'
   title: string
   time: string
-  avatar?: string
+  avatar?: React.ReactNode
+  bgColor: string
 }
 
 export interface Contact {

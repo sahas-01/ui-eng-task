@@ -1,6 +1,6 @@
 import { useState } from 'react'
 import { Link } from '@tanstack/react-router'
-import { ChevronRight, ChevronDown, Dot } from 'lucide-react'
+import { ChevronRight, Dot } from 'lucide-react'
 import { cn } from '@/lib/utils'
 import { DefaultIcon } from '@/components/icons/SideBar/DefaultIcon'
 import { EcommerceIcon } from '@/components/icons/SideBar/EcommerceIcon'

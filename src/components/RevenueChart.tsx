@@ -47,12 +47,13 @@ export const RevenueChart = memo(function RevenueChart() {
 
   return (
     <Card className="p-6 rounded-2xl bg-[#F7F9FB] dark:bg-[#FFFFFF0D] border-border/50 flex flex-col h-full">
-      <div className="mb-4 flex items-center justify-between flex-wrap gap-4">
+      <div className="mb-4 px-2 flex items-center flex-wrap gap-6">
         <h3 className="inter-semibold text-sm text-foreground">Revenue</h3>
+        <div className="w-px h-4 bg-[#1C1C1C33] dark:bg-[#FFFFFF33]" />
         <div className="flex items-center gap-6 flex-wrap">
           <div className="flex items-center gap-2">
-            <div className="size-2.5 rounded-full bg-[#A8C5DA]" />
-            <span className="text-sm text-foreground font-medium">
+            <div className="size-2 rounded-full bg-[#A8C5DA]" />
+            <span className="text-xs text-foreground font-medium">
               Current Week
             </span>
             <span className="text-sm font-semibold text-foreground">
@@ -60,8 +61,8 @@ export const RevenueChart = memo(function RevenueChart() {
             </span>
           </div>
           <div className="flex items-center gap-2">
-            <div className="size-2.5 rounded-full bg-black dark:bg-[#C6C7F8]" />
-            <span className="text-sm text-foreground font-medium">
+            <div className="size-2 rounded-full bg-black dark:bg-[#C6C7F8]" />
+            <span className="text-xs text-foreground font-medium">
               Previous Week
             </span>
             <span className="text-sm font-semibold text-foreground">
@@ -70,11 +71,8 @@ export const RevenueChart = memo(function RevenueChart() {
           </div>
         </div>
       </div>
-      <ResponsiveContainer width="100%" height={280}>
-        <LineChart
-          data={revenueData}
-          margin={{ top: 5, right: 20, left: 0, bottom: 5 }}
-        >
+      <ResponsiveContainer width="100%" height={300}>
+        <LineChart data={revenueData} margin={{ top: 0, right: 20, left: -17 }}>
           <CartesianGrid
             strokeDasharray="0"
             stroke={gridColor}
@@ -93,7 +91,7 @@ export const RevenueChart = memo(function RevenueChart() {
                 : 'rgba(28, 28, 28, 0.4)',
               fontSize: 12,
             }}
-            padding={{ left: 30, right: 30 }}
+            padding={{ left: 40, right: 30 }}
             scale="point"
           />
           <YAxis
@@ -117,7 +115,7 @@ export const RevenueChart = memo(function RevenueChart() {
             type="monotone"
             dataKey="current"
             stroke="#A8C5DA"
-            strokeWidth={3}
+            strokeWidth={4}
             dot={false}
             activeDot={{
               r: 5,
@@ -130,7 +128,7 @@ export const RevenueChart = memo(function RevenueChart() {
             type="monotone"
             dataKey="previous"
             stroke={isDark ? '#C6C7F8' : 'black'}
-            strokeWidth={3}
+            strokeWidth={4}
             dot={false}
             activeDot={{
               r: 5,

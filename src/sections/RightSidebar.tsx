@@ -1,106 +1,89 @@
-import { Bug, UserPlus, Share2, FileEdit, Trash2 } from 'lucide-react'
+import { User } from 'lucide-react'
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar'
 import { notifications, activities, contacts } from '@/data/dashboard'
-import { cn } from '@/lib/utils'
-
-const activityIcons = {
-  bug: <Bug className="size-4" />,
-  release: <Share2 className="size-4" />,
-  submission: <Bug className="size-4" />,
-  modification: <FileEdit className="size-4" />,
-  deletion: <Trash2 className="size-4" />,
-}
+import { BugIcon } from '@/components/icons/RightSidebar/BugIcon'
+import { BroadcastIcon } from '@/components/icons/RightSidebar/BroadcastIcon'
 
 const notificationIcons = {
-  bug: <Bug className="size-4" />,
-  user: <UserPlus className="size-4" />,
-  subscription: <Share2 className="size-4" />,
+  bug: <BugIcon className="size-4 text-black dark:text-white" />,
+  user: <User className="size-4 text-black dark:text-white" />,
+  subscription: <BroadcastIcon className="size-4 text-black dark:text-white" />,
 }
 
 export function RightSidebar() {
   return (
     <aside className="w-72 h-screen bg-white dark:bg-[#1C1C1C] border-l border-[#1C1C1C1A] dark:border-[#FFFFFF1A] flex flex-col overflow-y-auto">
       {/* Notifications */}
-      <div className="p-4 border-b border-[#1C1C1C1A] dark:border-[#FFFFFF1A]">
-        <h2 className="font-semibold text-foreground mb-4">Notifications</h2>
-        <div className="space-y-4">
+      <div className="px-6 py-4">
+        <h2 className="text-[#1c1c1c] mt-2 dark:text-white inter-semibold text-sm mb-4">
+          Notifications
+        </h2>
+        <div className="space-y-1">
           {notifications.map((notification) => (
             <div
               key={notification.id}
               className="flex items-start gap-3 group cursor-pointer hover:bg-accent/50 dark:hover:bg-accent/30 -mx-2 px-2 py-2 rounded-lg transition-all duration-200"
             >
-              {notification.avatar ? (
-                <Avatar className="size-8 transition-transform group-hover:scale-110">
-                  <AvatarImage src={notification.avatar} />
-                  <AvatarFallback>{notification.title[0]}</AvatarFallback>
-                </Avatar>
-              ) : (
-                <div className="size-8 rounded-full bg-accent flex items-center justify-center text-muted-foreground transition-transform group-hover:scale-110">
-                  {notificationIcons[notification.type]}
-                </div>
-              )}
-              <div className="flex-1 min-w-0">
-                <p className="text-sm text-foreground line-clamp-2">
+              <div
+                className="size-8 rounded-lg flex items-center justify-center text-muted-foreground transition-transform group-hover:scale-110"
+                style={{ backgroundColor: notification.bgColor }}
+              >
+                {notificationIcons[notification.type]}
+              </div>
+              <div className="flex-1">
+                <p className="text-sm text-[#1c1c1c] dark:text-white line-clamp-2">
                   {notification.title}
                 </p>
-                <p className="text-xs text-muted-foreground mt-0.5">
+                <p className="text-xs text-[#1C1C1C66] dark:text-[#FFFFFF66] mt-0.5">
                   {notification.time}
                 </p>
               </div>
-              {notification.type === 'bug' && (
-                <div className="size-2 rounded-full bg-primary shrink-0 mt-2" />
-              )}
             </div>
           ))}
         </div>
       </div>
 
       {/* Activities */}
-      <div className="p-4 border-b border-[#1C1C1C1A] dark:border-[#FFFFFF1A]">
-        <h2 className="font-semibold text-foreground mb-4">Activities</h2>
-        <div className="space-y-4">
-          {activities.map((activity) => (
-            <div
-              key={activity.id}
-              className="flex items-start gap-3 group cursor-pointer hover:bg-accent/50 dark:hover:bg-accent/30 -mx-2 px-2 py-2 rounded-lg transition-all duration-200"
-            >
-              <div
-                className={cn(
-                  'size-8 rounded-full flex items-center justify-center transition-transform group-hover:scale-110',
-                  activity.type === 'bug' && 'bg-red-500/10 text-red-500',
-                  activity.type === 'release' &&
-                    'bg-purple-500/10 text-purple-500',
-                  activity.type === 'submission' &&
-                    'bg-blue-500/10 text-blue-500',
-                  activity.type === 'modification' &&
-                    'bg-orange-500/10 text-orange-500',
-                  activity.type === 'deletion' &&
-                    'bg-gray-500/10 text-gray-500',
-                )}
-              >
-                {activityIcons[activity.type]}
+      <div className="px-6 py-4">
+        <h2 className="text-[#1c1c1c] dark:text-white inter-semibold text-sm mb-4">
+          Activities
+        </h2>
+        <div className="space-y-2.5">
+          {activities.map((activity, index) => (
+            <div key={activity.id} className="relative">
+              <div className="flex items-start gap-3 group cursor-pointer hover:bg-accent/50 dark:hover:bg-accent/30 -mx-2 px-2 py-2 rounded-lg transition-all duration-200">
+                <img
+                  src={activity.avatar}
+                  alt={activity.title}
+                  className="size-8 rounded-full object-cover transition-transform group-hover:scale-110 shrink-0"
+                />
+                <div className="flex-1 min-w-0">
+                  <p className="text-sm text-foreground line-clamp-2">
+                    {activity.title}
+                  </p>
+                  <p className="text-xs text-muted-foreground mt-0.5">
+                    {activity.time}
+                  </p>
+                </div>
               </div>
-              <div className="flex-1 min-w-0">
-                <p className="text-sm text-foreground line-clamp-2">
-                  {activity.title}
-                </p>
-                <p className="text-xs text-muted-foreground mt-0.5">
-                  {activity.time}
-                </p>
-              </div>
+              {index < activities.length - 1 && (
+                <div className="absolute left-[15px] top-12 w-px h-4 bg-[#1C1C1C1A] dark:bg-[#FFFFFF1A]" />
+              )}
             </div>
           ))}
         </div>
       </div>
 
       {/* Contacts */}
-      <div className="p-4 flex-1">
-        <h2 className="font-semibold text-foreground mb-4">Contacts</h2>
-        <div className="space-y-3">
+      <div className="px-6 py-4">
+        <h2 className="text-[#1c1c1c] dark:text-white inter-semibold text-sm mb-4">
+          Contacts
+        </h2>
+        <div className="space-y-4">
           {contacts.map((contact) => (
             <div
               key={contact.id}
-              className="flex items-center gap-3 group cursor-pointer hover:bg-accent/50 dark:hover:bg-accent/30 -mx-2 px-2 py-2 rounded-lg transition-all duration-200"
+              className="flex items-center gap-3 group cursor-pointer hover:bg-accent/50 dark:hover:bg-accent/30 -mx-2 px-2 rounded-lg transition-all duration-200"
             >
               <Avatar className="size-8 transition-transform group-hover:scale-110">
                 <AvatarImage src={contact.avatar} />
@@ -111,7 +94,7 @@ export function RightSidebar() {
                     .join('')}
                 </AvatarFallback>
               </Avatar>
-              <span className="text-sm text-foreground font-medium">
+              <span className="text-sm text-[#1C1C1C] dark:text-white inter-regular">
                 {contact.name}
               </span>
             </div>

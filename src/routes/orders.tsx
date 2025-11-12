@@ -11,7 +11,6 @@ import {
   TableRow,
 } from '@/components/ui/table'
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar'
-import { Badge } from '@/components/ui/badge'
 import { Checkbox } from '@/components/ui/checkbox'
 import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
@@ -29,7 +28,14 @@ import {
   PaginationNext,
   PaginationPrevious,
 } from '@/components/ui/pagination'
-import { Plus, SlidersHorizontal, ArrowUpDown, Search, Calendar, MoreHorizontal } from 'lucide-react'
+import {
+  Plus,
+  SlidersHorizontal,
+  ArrowUpDown,
+  Search,
+  Calendar,
+  MoreHorizontal,
+} from 'lucide-react'
 import { orders as ordersData } from '@/data/dashboard'
 import type { Order } from '@/types/dashboard'
 import { cn } from '@/lib/utils'
@@ -39,11 +45,11 @@ export const Route = createFileRoute('/orders')({
 })
 
 const statusColors = {
-  'In Progress': 'bg-blue-500/10 text-blue-600 dark:text-blue-400 border-blue-500/20',
-  'Complete': 'bg-emerald-500/10 text-emerald-600 dark:text-emerald-400 border-emerald-500/20',
-  'Pending': 'bg-orange-500/10 text-orange-600 dark:text-orange-400 border-orange-500/20',
-  'Approved': 'bg-purple-500/10 text-purple-600 dark:text-purple-400 border-purple-500/20',
-  'Rejected': 'bg-gray-500/10 text-gray-600 dark:text-gray-400 border-gray-500/20',
+  'In Progress': 'text-[#8A8CD9]',
+  Complete: 'text-[#4AA785]',
+  Pending: 'text-[#59A8D4]',
+  Approved: 'text-[#FFC555]',
+  Rejected: 'text-[#1C1C1C66]',
 }
 
 function OrdersPage() {
@@ -89,7 +95,7 @@ function OrdersPage() {
     })
 
     return filtered
-  }, [ordersData, searchQuery, statusFilter, sortField, sortDirection])
+  }, [searchQuery, statusFilter, sortField, sortDirection])
 
   const paginatedOrders = useMemo(() => {
     const startIndex = (currentPage - 1) * itemsPerPage
@@ -102,15 +108,19 @@ function OrdersPage() {
     setSelectedOrders((prev) =>
       prev.includes(orderId)
         ? prev.filter((id) => id !== orderId)
-        : [...prev, orderId]
+        : [...prev, orderId],
     )
   }
 
   const toggleAllOrders = () => {
-    if (selectedOrders.length === paginatedOrders.length) {
+    if (
+      selectedOrders.length === paginatedOrders.length &&
+      paginatedOrders.every((order) => selectedOrders.includes(order.id))
+    ) {
       setSelectedOrders([])
     } else {
-      setSelectedOrders(paginatedOrders.map((order) => order.id))
+      const newSelectedOrders = paginatedOrders.map((order) => order.id)
+      setSelectedOrders(newSelectedOrders)
     }
   }
 
@@ -121,6 +131,8 @@ function OrdersPage() {
       setSortField(field)
       setSortDirection('asc')
     }
+    setCurrentPage(1)
+    setSelectedOrders([])
   }
 
   return (
@@ -153,30 +165,26 @@ function OrdersPage() {
             { label: 'Dashboards' },
             { label: 'Default', href: '/dashboard' },
           ]}
-          onSidebarToggle={() => setSidebarOpen(!sidebarOpen)}
+          onLeftSidebarToggle={() => setSidebarOpen(!sidebarOpen)}
         />
 
         <main className="flex-1 overflow-y-auto">
           <div className="p-4 lg:p-6">
             {/* Header */}
             <div className="mb-6">
-              <h1 className="text-2xl font-bold text-foreground">Order List</h1>
+              <h1 className="text-sm inter-semibold text-foreground">
+                Order List
+              </h1>
             </div>
 
             {/* Toolbar */}
-            <div className="mb-4 flex flex-col sm:flex-row gap-3 items-start sm:items-center justify-between">
-              <div className="flex gap-2">
-                <Button size="sm" variant="outline">
-                  <Plus className="size-4" />
-                </Button>
-                <Button size="sm" variant="outline">
-                  <SlidersHorizontal className="size-4" />
-                </Button>
+            <div className="mb-4 bg-[#F7F9FB] dark:bg-[#FFFFFF0D] rounded-lg px-4 py-2 flex flex-col sm:flex-row gap-3 items-start sm:items-center justify-between">
+              <div className="flex gap-4">
+                <Plus className="size-4 cursor-pointer" />
+                <SlidersHorizontal className="size-4 cursor-pointer" />
                 <DropdownMenu>
                   <DropdownMenuTrigger asChild>
-                    <Button size="sm" variant="outline">
-                      <ArrowUpDown className="size-4" />
-                    </Button>
+                    <ArrowUpDown className="size-4 cursor-pointer" />
                   </DropdownMenuTrigger>
                   <DropdownMenuContent align="start">
                     <DropdownMenuItem onClick={() => handleSort('id')}>
@@ -205,45 +213,19 @@ function OrdersPage() {
                     type="search"
                     placeholder="Search"
                     value={searchQuery}
-                    onChange={(e) => setSearchQuery(e.target.value)}
+                    onChange={(e) => {
+                      setSearchQuery(e.target.value)
+                      setCurrentPage(1)
+                      setSelectedOrders([])
+                    }}
                     className="pl-9 w-full sm:w-[200px]"
                   />
                 </div>
-                <DropdownMenu>
-                  <DropdownMenuTrigger asChild>
-                    <Button size="sm" variant="outline">
-                      <SlidersHorizontal className="size-4" />
-                      Filter
-                    </Button>
-                  </DropdownMenuTrigger>
-                  <DropdownMenuContent align="end">
-                    <DropdownMenuItem onClick={() => setStatusFilter('all')}>
-                      All Status
-                    </DropdownMenuItem>
-                    <DropdownMenuItem
-                      onClick={() => setStatusFilter('In Progress')}
-                    >
-                      In Progress
-                    </DropdownMenuItem>
-                    <DropdownMenuItem onClick={() => setStatusFilter('Complete')}>
-                      Complete
-                    </DropdownMenuItem>
-                    <DropdownMenuItem onClick={() => setStatusFilter('Pending')}>
-                      Pending
-                    </DropdownMenuItem>
-                    <DropdownMenuItem onClick={() => setStatusFilter('Approved')}>
-                      Approved
-                    </DropdownMenuItem>
-                    <DropdownMenuItem onClick={() => setStatusFilter('Rejected')}>
-                      Rejected
-                    </DropdownMenuItem>
-                  </DropdownMenuContent>
-                </DropdownMenu>
               </div>
             </div>
 
             {/* Table */}
-            <div className="border border-border rounded-lg overflow-hidden">
+            <div className="overflow-hidden">
               <Table>
                 <TableHeader>
                   <TableRow>
@@ -256,18 +238,24 @@ function OrdersPage() {
                         onCheckedChange={toggleAllOrders}
                       />
                     </TableHead>
-                    <TableHead className="font-semibold">Order ID</TableHead>
-                    <TableHead className="font-semibold">User</TableHead>
-                    <TableHead className="font-semibold hidden md:table-cell">
+                    <TableHead className="inter-normal text-[#1C1C1C66] dark:text-[#FFFFFF66] text-sm">
+                      Order ID
+                    </TableHead>
+                    <TableHead className="inter-normal text-[#1C1C1C66] dark:text-[#FFFFFF66] text-sm">
+                      User
+                    </TableHead>
+                    <TableHead className="inter-normal text-[#1C1C1C66] dark:text-[#FFFFFF66] text-sm hidden md:table-cell">
                       Project
                     </TableHead>
-                    <TableHead className="font-semibold hidden lg:table-cell">
+                    <TableHead className="inter-normal text-[#1C1C1C66] dark:text-[#FFFFFF66] text-sm hidden lg:table-cell">
                       Address
                     </TableHead>
-                    <TableHead className="font-semibold hidden sm:table-cell">
+                    <TableHead className="inter-normal text-[#1C1C1C66] dark:text-[#FFFFFF66] text-sm hidden sm:table-cell">
                       Date
                     </TableHead>
-                    <TableHead className="font-semibold">Status</TableHead>
+                    <TableHead className="inter-normal text-[#1C1C1C66] dark:text-[#FFFFFF66] text-sm">
+                      Status
+                    </TableHead>
                     <TableHead className="w-12"></TableHead>
                   </TableRow>
                 </TableHeader>
@@ -276,7 +264,9 @@ function OrdersPage() {
                     <TableRow
                       key={order.id}
                       data-state={
-                        selectedOrders.includes(order.id) ? 'selected' : undefined
+                        selectedOrders.includes(order.id)
+                          ? 'selected'
+                          : undefined
                       }
                       className="group"
                     >
@@ -286,7 +276,7 @@ function OrdersPage() {
                           onCheckedChange={() => toggleOrderSelection(order.id)}
                         />
                       </TableCell>
-                      <TableCell className="font-medium">{order.id}</TableCell>
+                      <TableCell className="font-normal">{order.id}</TableCell>
                       <TableCell>
                         <div className="flex items-center gap-3">
                           <Avatar className="size-8 transition-transform group-hover:scale-110">
@@ -298,31 +288,31 @@ function OrdersPage() {
                                 .join('')}
                             </AvatarFallback>
                           </Avatar>
-                          <span className="font-medium">{order.user.name}</span>
+                          <span className="font-normal">{order.user.name}</span>
                         </div>
                       </TableCell>
-                      <TableCell className="hidden md:table-cell">
+                      <TableCell className="hidden text-black dark:text-white md:table-cell font-normal">
                         {order.project}
                       </TableCell>
-                      <TableCell className="hidden lg:table-cell text-muted-foreground">
+                      <TableCell className="hidden text-black dark:text-white lg:table-cell font-normal">
                         {order.address}
                       </TableCell>
-                      <TableCell className="hidden sm:table-cell text-muted-foreground">
+                      <TableCell className="hidden sm:table-cell font-normal">
                         <div className="flex items-center gap-2">
                           <Calendar className="size-3.5" />
                           {order.date}
                         </div>
                       </TableCell>
                       <TableCell>
-                        <Badge
-                          variant="outline"
+                        <div
                           className={cn(
-                            'font-medium',
-                            statusColors[order.status]
+                            'flex items-center gap-x-1.5',
+                            statusColors[order.status],
                           )}
                         >
+                          <span className="size-2 rounded-full bg-current block" />
                           {order.status}
-                        </Badge>
+                        </div>
                       </TableCell>
                       <TableCell>
                         <Button
@@ -341,16 +331,17 @@ function OrdersPage() {
 
             {/* Pagination */}
             {totalPages > 1 && (
-              <div className="mt-4 flex justify-center">
+              <div className="mt-4 flex items-center justify-end">
                 <Pagination>
                   <PaginationContent>
                     <PaginationItem>
                       <PaginationPrevious
-                        onClick={() =>
+                        onClick={() => {
                           setCurrentPage((prev) => Math.max(1, prev - 1))
-                        }
+                          setSelectedOrders([])
+                        }}
                         className={cn(
-                          currentPage === 1 && 'pointer-events-none opacity-50'
+                          currentPage === 1 && 'cursor-pointer opacity-50',
                         )}
                       />
                     </PaginationItem>
@@ -358,22 +349,29 @@ function OrdersPage() {
                       (page) => (
                         <PaginationItem key={page}>
                           <PaginationLink
-                            onClick={() => setCurrentPage(page)}
+                            onClick={() => {
+                              setCurrentPage(page)
+                              setSelectedOrders([])
+                            }}
                             isActive={currentPage === page}
+                            className="cursor-pointer"
                           >
                             {page}
                           </PaginationLink>
                         </PaginationItem>
-                      )
+                      ),
                     )}
                     <PaginationItem>
                       <PaginationNext
-                        onClick={() =>
-                          setCurrentPage((prev) => Math.min(totalPages, prev + 1))
-                        }
+                        onClick={() => {
+                          setCurrentPage((prev) =>
+                            Math.min(totalPages, prev + 1),
+                          )
+                          setSelectedOrders([])
+                        }}
                         className={cn(
                           currentPage === totalPages &&
-                            'pointer-events-none opacity-50'
+                            'cursor-pointer opacity-50',
                         )}
                       />
                     </PaginationItem>
