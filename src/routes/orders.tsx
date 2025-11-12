@@ -222,7 +222,7 @@ function OrdersPage() {
                       setCurrentPage(1)
                       setSelectedOrders([])
                     }}
-                    className="pl-9 border dark:border-[#FFFFFF1A] w-full sm:w-[200px]"
+                    className="pl-9 border border-[#FFFFFF1A] w-full sm:w-[200px]"
                   />
                 </div>
               </div>
