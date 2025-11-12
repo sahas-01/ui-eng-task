@@ -1,5 +1,5 @@
 import { useState } from 'react'
-import { Link } from '@tanstack/react-router'
+import { Link, useLocation } from '@tanstack/react-router'
 import { ChevronRight, Dot } from 'lucide-react'
 import { cn } from '@/lib/utils'
 import { DefaultIcon } from '@/components/icons/SideBar/DefaultIcon'
@@ -25,13 +25,13 @@ const navItems = {
   favorites: [
     {
       title: 'Overview',
-      icon: <Dot className="size-7 text-[#1C1C1C33]" />,
-      href: '/',
+      icon: <Dot className="size-7 text-[#1C1C1C33] dark:text-[#FFFFFF33]" />,
+      href: '/dashboard',
     },
     {
       title: 'Projects',
-      icon: <Dot className="size-7 text-[#1C1C1C33]" />,
-      href: '/projects',
+      icon: <Dot className="size-7 text-[#1C1C1C33] dark:text-[#FFFFFF33]" />,
+      href: '/orders',
     },
   ],
   dashboards: [
@@ -114,23 +114,29 @@ function NavItemComponent({
   item,
   depth = 0,
   isFavorite = false,
+  currentPathname = '',
 }: {
   item: NavItem
   depth?: number
   isFavorite?: boolean
+  currentPathname?: string
 }) {
   const [isExpanded, setIsExpanded] = useState(false)
   const hasChildren = item.children && item.children.length > 0
+  const isActive = item.href && currentPathname === item.href
 
   const content = (
     <div
       className={cn(
         'flex items-center whitespace-pre rounded-lg transition-all duration-200',
         'hover:bg-accent/50 dark:hover:bg-accent/30 cursor-pointer group',
-        'hover:border-l-4 hover:border-black dark:hover:border-white',
+        'hover:border-l-4 hover:border-black dark:hover:border-[#C6C7F8]',
         'text-black dark:text-white text-sm font-normal',
-        isFavorite ? 'px-1 py-1' : 'px-4 py-2',
+        isFavorite ? 'px-1 py-1' : 'px-3 py-2',
         depth > 0 && 'pl-12',
+        isFavorite &&
+          isActive &&
+          'bg-accent/50 dark:bg-accent/30 border-l-4 border-black dark:border-[#C6C7F8]',
       )}
       style={{ fontSize: '14px', lineHeight: '20px' }}
       onClick={() => hasChildren && setIsExpanded(!isExpanded)}
@@ -167,6 +173,7 @@ function NavItemComponent({
               item={child}
               depth={depth + 1}
               isFavorite={isFavorite}
+              currentPathname={currentPathname}
             />
           ))}
         </div>
@@ -176,8 +183,11 @@ function NavItemComponent({
 }
 
 export function Sidebar({ onClose }: { onClose?: () => void }) {
+  const location = useLocation()
+  const currentPathname = location.pathname
+
   return (
-    <aside className="w-56 h-screen bg-white dark:bg-[#1C1C1C] border-r border-[#1C1C1C1A] dark:border-[#FFFFFF1A] flex flex-col overflow-y-auto">
+    <aside className="w-[220px] h-screen bg-white dark:bg-[#1C1C1C] border-r border-[#1C1C1C1A] dark:border-[#FFFFFF1A] flex flex-col overflow-y-auto">
       {/* Logo and Mobile Close Button */}
       <div className="flex items-center justify-between p-4">
         <Link
@@ -201,10 +211,10 @@ export function Sidebar({ onClose }: { onClose?: () => void }) {
       <nav className="flex-1 p-4">
         {/* Favorites and Recently tabs */}
         <div className="flex items-center gap-6 mb-4 px-3">
-          <h3 className="text-xs font-normal text-muted-foreground">
+          <h3 className="text-xs font-normal text-[#1C1C1C66] dark:text-[#FFFFFF66]">
             Favorites
           </h3>
-          <h3 className="text-xs font-normal text-muted-foreground">
+          <h3 className="text-xs font-normal text-[#1C1C1C33] dark:text-[#FFFFFF33]">
             Recently
           </h3>
         </div>
@@ -212,7 +222,12 @@ export function Sidebar({ onClose }: { onClose?: () => void }) {
         {/* Favorites items */}
         <div className="space-y-0 mb-6">
           {navItems.favorites.map((item, index) => (
-            <NavItemComponent key={index} item={item} isFavorite={true} />
+            <NavItemComponent
+              key={index}
+              item={item}
+              isFavorite={true}
+              currentPathname={currentPathname}
+            />
           ))}
         </div>
 
@@ -223,7 +238,11 @@ export function Sidebar({ onClose }: { onClose?: () => void }) {
           </h3>
           <div className="space-y-0">
             {navItems.dashboards.map((item, index) => (
-              <NavItemComponent key={index} item={item} />
+              <NavItemComponent
+                key={index}
+                item={item}
+                currentPathname={currentPathname}
+              />
             ))}
           </div>
         </div>
@@ -235,7 +254,11 @@ export function Sidebar({ onClose }: { onClose?: () => void }) {
           </h3>
           <div className="space-y-0">
             {navItems.pages.map((item, index) => (
-              <NavItemComponent key={index} item={item} />
+              <NavItemComponent
+                key={index}
+                item={item}
+                currentPathname={currentPathname}
+              />
             ))}
           </div>
         </div>

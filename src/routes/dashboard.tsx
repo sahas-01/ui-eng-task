@@ -16,7 +16,9 @@ export const Route = createFileRoute('/dashboard')({
 })
 
 function DashboardPage() {
-  const [leftSidebarOpen, setLeftSidebarOpen] = useState(true)
+  // Sidebar is open on desktop (lg+), closed on tablet and mobile
+  const isDesktop = typeof window !== 'undefined' && window.innerWidth >= 1024
+  const [leftSidebarOpen, setLeftSidebarOpen] = useState(isDesktop)
   const [rightSidebarOpen, setRightSidebarOpen] = useState(true)
 
   return (
@@ -27,13 +29,13 @@ function DashboardPage() {
         </div>
       )}
 
-      {/* Mobile left sidebar */}
+      {/* Tablet and Mobile left sidebar overlay */}
       {leftSidebarOpen && (
         <div
-          className="fixed inset-0 z-50 sm:hidden"
+          className="fixed inset-0 z-50 lg:hidden"
           onClick={() => setLeftSidebarOpen(false)}
         >
-          <div className="absolute inset-0 bg-background/80 backdrop-blur-sm" />
+          <div className="absolute inset-0 bg-background/10" />
           <div
             className="absolute left-0 top-0 h-full animate-in slide-in-from-left duration-200"
             onClick={(e) => e.stopPropagation()}

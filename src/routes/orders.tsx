@@ -50,7 +50,7 @@ const statusColors = {
   Complete: 'text-[#4AA785]',
   Pending: 'text-[#59A8D4]',
   Approved: 'text-[#FFC555]',
-  Rejected: 'text-[#1C1C1C66]',
+  Rejected: 'text-[#1C1C1C66] dark:text-[#FFFFFF66]',
 }
 
 function OrdersPage() {
@@ -222,7 +222,7 @@ function OrdersPage() {
                       setCurrentPage(1)
                       setSelectedOrders([])
                     }}
-                    className="pl-9 w-full sm:w-[200px]"
+                    className="pl-9 border dark:border-[#FFFFFF1A] w-full sm:w-[200px]"
                   />
                 </div>
               </div>

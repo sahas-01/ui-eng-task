@@ -1,5 +1,6 @@
-import { memo, useState } from 'react'
+import { memo, useState, useEffect } from 'react'
 import { Card } from '@/components/ui/card'
+import { useTheme } from '@/context/theme-provider'
 import {
   ComposableMap,
   Geographies,
@@ -23,10 +24,28 @@ const markers = [
 ]
 
 export const RevenueByLocation = memo(function RevenueByLocation() {
+  const { theme } = useTheme()
   const [hoveredCity, setHoveredCity] = useState<string | null>(null)
+  const [isDark, setIsDark] = useState(false)
+
+  useEffect(() => {
+    const updateTheme = () => {
+      setIsDark(document.documentElement.classList.contains('dark'))
+    }
+
+    updateTheme()
+
+    const observer = new MutationObserver(updateTheme)
+    observer.observe(document.documentElement, {
+      attributes: true,
+      attributeFilter: ['class'],
+    })
+
+    return () => observer.disconnect()
+  }, [theme])
 
   return (
-    <Card className="p-6 rounded-2xl bg-[#F7F9FB] dark:bg-[#FFFFFF0D] border-border/50 flex flex-col h-full">
+    <Card className="p-6 border-none shadow-none rounded-2xl bg-[#F7F9FB] dark:bg-[#FFFFFF0D] border-border/50 flex flex-col h-full">
       <div className="mb-4">
         <h3 className="inter-semibold text-sm text-foreground">
           Revenue by Location
@@ -46,20 +65,27 @@ export const RevenueByLocation = memo(function RevenueByLocation() {
         >
           <Geographies geography={geoUrl}>
             {({ geographies }: { geographies: Geography[] }) =>
-              geographies.map((geo: Geography) => (
-                <GeographyComponent
-                  key={geo.rsmKey}
-                  geography={geo}
-                  fill="#A8C5DA"
-                  stroke="hsl(var(--background))"
-                  strokeWidth={0.5}
-                  style={{
-                    default: { outline: 'none' },
-                    hover: { outline: 'none', fill: '#B8D5EA' },
-                    pressed: { outline: 'none' },
-                  }}
-                />
-              ))
+              geographies
+                .filter(
+                  (geo: Geography) => geo.properties.name !== 'Antarctica',
+                )
+                .map((geo: Geography) => (
+                  <GeographyComponent
+                    key={geo.rsmKey}
+                    geography={geo}
+                    fill={isDark ? '#687681' : '#CFDFEB'}
+                    stroke="hsl(var(--background))"
+                    strokeWidth={0.5}
+                    style={{
+                      default: { outline: 'none' },
+                      hover: {
+                        outline: 'none',
+                        fill: isDark ? '#7A8A91' : '#D5E8F5',
+                      },
+                      pressed: { outline: 'none' },
+                    }}
+                  />
+                ))
             }
           </Geographies>
           {markers.map(({ city, coordinates }) => (
@@ -70,26 +96,26 @@ export const RevenueByLocation = memo(function RevenueByLocation() {
                 style={{ cursor: 'pointer' }}
               >
                 <circle
-                  r={10}
+                  r={14}
                   className="fill-black dark:fill-[#C6C7F8] transition-all"
                   stroke="none"
                 />
                 {hoveredCity === city && (
                   <>
                     <rect
-                      x={-40}
-                      y={-35}
-                      width={80}
-                      height={24}
-                      rx={4}
-                      className="fill-black dark:fill-white"
-                      opacity={0.9}
+                      x={-55}
+                      y={-40}
+                      width={150}
+                      height={50}
+                      rx={8}
+                      className="fill-white text-center text-base dark:fill-[#1C1C1C]"
+                      opacity={1}
                     />
                     <text
                       textAnchor="middle"
                       y={-18}
-                      className="fill-white dark:fill-black text-xs font-medium"
-                      style={{ fontSize: '12px', pointerEvents: 'none' }}
+                      className="fill-black dark:fill-white px-5 text-center text-2xl font-semibold"
+                      style={{ pointerEvents: 'none' }}
                     >
                       {city}
                     </text>
@@ -116,10 +142,18 @@ export const RevenueByLocation = memo(function RevenueByLocation() {
                   {(location.value / 1000).toFixed(0)}K
                 </span>
               </div>
-              <div className="h-1.5 bg-muted/30 rounded-full overflow-hidden">
+              <div
+                className="h-1.5 rounded-full overflow-hidden"
+                style={{
+                  backgroundColor: isDark ? '#444D52' : '#E6EEF5',
+                }}
+              >
                 <div
-                  className="h-full bg-[#A8C5DA] rounded-full transition-all duration-500"
-                  style={{ width: `${percentage}%` }}
+                  className="h-full rounded-full transition-all duration-500"
+                  style={{
+                    width: `${percentage}%`,
+                    backgroundColor: '#A8C5DA',
+                  }}
                 />
               </div>
             </div>

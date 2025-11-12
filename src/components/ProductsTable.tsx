@@ -12,7 +12,7 @@ import { products } from '@/data/dashboard'
 
 export const ProductsTable = memo(function ProductsTable() {
   return (
-    <Card className="p-6 rounded-2xl bg-[#F7F9FB] dark:bg-[#FFFFFF0D] border-border/50 h-full flex flex-col">
+    <Card className="p-6 shadow-none border-none rounded-2xl bg-[#F7F9FB] dark:bg-[#FFFFFF0D] border-border/50 h-full flex flex-col">
       <div className="mb-4">
         <h3 className="inter-semibold text-sm text-foreground">
           Top Selling Products
@@ -20,17 +20,17 @@ export const ProductsTable = memo(function ProductsTable() {
       </div>
       <Table>
         <TableHeader>
-          <TableRow className="border-b border-border hover:bg-transparent">
-            <TableHead className="text-muted-foreground font-normal text-base px-0 py-3">
+          <TableRow className="border-b bg-transparent dark:border-[#FFFFFF33] border-[#1C1C1C33]">
+            <TableHead className="text-[#1C1C1C66] dark:text-[#FFFFFF66] font-normal text-sm px-0 py-3">
               Name
             </TableHead>
-            <TableHead className="text-right text-muted-foreground font-normal text-base px-2 py-3">
+            <TableHead className=" text-[#1C1C1C66] dark:text-[#FFFFFF66] font-normal text-sm px-2 py-3">
               Price
             </TableHead>
-            <TableHead className="text-right text-muted-foreground font-normal text-base px-2 py-3">
+            <TableHead className=" text-[#1C1C1C66] dark:text-[#FFFFFF66] font-normal text-sm px-2 py-3">
               Quantity
             </TableHead>
-            <TableHead className="text-right text-muted-foreground font-normal text-base px-0 py-3">
+            <TableHead className=" text-[#1C1C1C66] dark:text-[#FFFFFF66] font-normal text-sm px-0 py-3">
               Amount
             </TableHead>
           </TableRow>
@@ -38,16 +38,16 @@ export const ProductsTable = memo(function ProductsTable() {
         <TableBody>
           {products.map((product, index) => (
             <TableRow key={index} className="border-0 hover:bg-transparent">
-              <TableCell className="font-normal text-foreground text-base px-0 py-3">
+              <TableCell className="font-normal text-foreground text-sm px-0 py-4">
                 {product.name}
               </TableCell>
-              <TableCell className="text-right text-foreground font-normal text-base px-2 py-3">
+              <TableCell className="text-foreground font-normal text-sm px-2 py-4">
                 ${product.price.toFixed(2)}
               </TableCell>
-              <TableCell className="text-right text-foreground font-normal text-base px-2 py-3">
+              <TableCell className="text-foreground font-normal text-sm px-2 py-4">
                 {product.quantity}
               </TableCell>
-              <TableCell className="text-right font-normal text-foreground text-base px-0 py-3">
+              <TableCell className="font-normal text-foreground text-sm px-0 py-4">
                 $
                 {product.amount.toLocaleString('en-US', {
                   minimumFractionDigits: 2,

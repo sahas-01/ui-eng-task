@@ -10,6 +10,7 @@ import {
   ResponsiveContainer,
 } from 'recharts'
 import { revenueData } from '@/data/dashboard'
+import useMediaQuery from '@/hooks/useMediaQuery'
 
 const tooltipStyles = {
   contentStyle: {
@@ -26,6 +27,7 @@ const tooltipStyles = {
 export const RevenueChart = memo(function RevenueChart() {
   const [isDark, setIsDark] = useState(false)
   const tickFormatter = useMemo(() => (value: number) => `${value}M`, [])
+  const isMobile = useMediaQuery('(max-width: 640px)')
 
   useEffect(() => {
     const updateTheme = () => {
@@ -46,11 +48,11 @@ export const RevenueChart = memo(function RevenueChart() {
   const gridColor = isDark ? '#FFFFFF1A' : '#1C1C1C0D'
 
   return (
-    <Card className="p-6 rounded-2xl bg-[#F7F9FB] dark:bg-[#FFFFFF0D] border-border/50 flex flex-col h-full">
-      <div className="mb-4 px-2 flex items-center flex-wrap gap-6">
+    <Card className="p-4 sm:p-6 border-none shadow-none rounded-2xl bg-[#F7F9FB] dark:bg-[#FFFFFF0D] border-border/50 flex flex-col h-full">
+      <div className="mb-4 px-2 flex flex-col sm:flex-row sm:items-center gap-2 sm:gap-6">
         <h3 className="inter-semibold text-sm text-foreground">Revenue</h3>
-        <div className="w-px h-4 bg-[#1C1C1C33] dark:bg-[#FFFFFF33]" />
-        <div className="flex items-center gap-6 flex-wrap">
+        <div className="w-px h-4 bg-[#1C1C1C33] dark:bg-[#FFFFFF33] hidden sm:block" />
+        <div className="flex flex-col sm:flex-row sm:items-center gap-2 sm:gap-6">
           <div className="flex items-center gap-2">
             <div className="size-2 rounded-full bg-[#A8C5DA]" />
             <span className="text-xs text-foreground font-medium">
@@ -71,8 +73,11 @@ export const RevenueChart = memo(function RevenueChart() {
           </div>
         </div>
       </div>
-      <ResponsiveContainer width="100%" height={300}>
-        <LineChart data={revenueData} margin={{ top: 0, right: 20, left: -17 }}>
+      <ResponsiveContainer width="100%" height={isMobile ? 250 : 300}>
+        <LineChart
+          data={revenueData}
+          margin={{ top: 0, right: 10, left: -17, bottom: -5 }}
+        >
           <CartesianGrid
             strokeDasharray="0"
             stroke={gridColor}
@@ -91,7 +96,7 @@ export const RevenueChart = memo(function RevenueChart() {
                 : 'rgba(28, 28, 28, 0.4)',
               fontSize: 12,
             }}
-            padding={{ left: 40, right: 30 }}
+            padding={{ left: 20, right: 20 }}
             scale="point"
           />
           <YAxis

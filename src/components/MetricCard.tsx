@@ -44,8 +44,8 @@ export const MetricCard = memo(function MetricCard({
           <p className={cn('text-sm inter-semibold', textColorClass)}>
             {title}
           </p>
-          <div className="flex gap-x-14 items-center">
-            <h1 className={cn('text-3xl inter-semibold', textColorClass)}>
+          <div className="flex gap-x-9 items-center">
+            <h1 className={cn('text-2xl inter-semibold', textColorClass)}>
               {value}
             </h1>
             <div

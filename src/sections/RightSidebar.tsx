@@ -5,9 +5,9 @@ import { BugIcon } from '@/components/icons/RightSidebar/BugIcon'
 import { BroadcastIcon } from '@/components/icons/RightSidebar/BroadcastIcon'
 
 const notificationIcons = {
-  bug: <BugIcon className="size-4 text-black dark:text-white" />,
-  user: <User className="size-4 text-black dark:text-white" />,
-  subscription: <BroadcastIcon className="size-4 text-black dark:text-white" />,
+  bug: <BugIcon className="size-4 text-black" />,
+  user: <User className="size-4 text-black" />,
+  subscription: <BroadcastIcon className="size-4 text-black" />,
 }
 
 export function RightSidebar() {

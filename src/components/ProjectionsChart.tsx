@@ -12,17 +12,17 @@ import {
 import { projectionData } from '@/data/dashboard'
 import { useTheme } from '@/context/theme-provider'
 
-const tooltipStyles = {
+const getTooltipStyles = (isDark: boolean) => ({
   contentStyle: {
-    backgroundColor: 'hsl(var(--card))',
+    backgroundColor: isDark ? '#1C1C1C' : '#FFFFFF',
     border: '1px solid hsl(var(--border))',
-    borderRadius: '8px',
+    borderRadius: '4px',
     boxShadow: '0 4px 12px rgba(0, 0, 0, 0.1)',
   },
   labelStyle: { color: 'hsl(var(--foreground))' },
   itemStyle: { color: 'hsl(var(--foreground))' },
   cursor: false,
-}
+})
 
 export const ProjectionsChart = memo(function ProjectionsChart() {
   const { theme } = useTheme()
@@ -46,11 +46,12 @@ export const ProjectionsChart = memo(function ProjectionsChart() {
   }, [theme])
 
   const gridColor = isDark ? '#FFFFFF1A' : '#1C1C1C0D'
+  const tooltipStyles = getTooltipStyles(isDark)
 
   return (
     <Card className="p-6 rounded-2xl bg-[#F7F9FB] dark:bg-[#FFFFFF0D] border-border/50 h-full flex flex-col">
       <div className="mb-4">
-        <h3 className="inter-semibold text-sm text-foreground">
+        <h3 className="inter-semibold mt-2.5 text-sm text-foreground">
           Projections vs Actuals
         </h3>
       </div>
@@ -58,7 +59,7 @@ export const ProjectionsChart = memo(function ProjectionsChart() {
         <ResponsiveContainer width="100%" height="100%">
           <BarChart
             data={projectionData}
-            barCategoryGap="20%"
+            barCategoryGap="30%"
             margin={{ top: 10, right: 10, left: -20, bottom: 0 }}
           >
             <CartesianGrid
@@ -101,15 +102,15 @@ export const ProjectionsChart = memo(function ProjectionsChart() {
               stackId="a"
               fill="#A8C5DA"
               radius={[0, 0, 0, 0]}
-              maxBarSize={60}
+              maxBarSize={50}
               isAnimationActive={false}
             />
             <Bar
               dataKey="projections"
               stackId="a"
-              fill="#CFDFEB"
-              radius={[8, 8, 0, 0]}
-              maxBarSize={60}
+              fill={theme === 'dark' ? '#687681' : '#CFDFEB'}
+              radius={[4, 4, 0, 0]}
+              maxBarSize={50}
               isAnimationActive={false}
             />
           </BarChart>

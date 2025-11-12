@@ -83,7 +83,7 @@ export const SalesChart = memo(function SalesChart() {
   }
 
   return (
-    <Card className="p-6 rounded-2xl bg-[#F7F9FB] dark:bg-[#FFFFFF0D] border-border/50 h-full flex flex-col">
+    <Card className="p-6 rounded-2xl shadow-none border-none bg-[#F7F9FB] dark:bg-[#FFFFFF0D] border-border/50 h-full flex flex-col">
       <div>
         <h3 className="inter-semibold text-sm text-foreground">Total Sales</h3>
       </div>
@@ -96,14 +96,16 @@ export const SalesChart = memo(function SalesChart() {
               cy="50%"
               innerRadius={50}
               outerRadius={80}
-              paddingAngle={0.5}
+              paddingAngle={5.9}
               dataKey="value"
               startAngle={90}
               endAngle={450}
               activeShape={CustomShape}
               onMouseEnter={onPieEnter}
               onMouseLeave={onPieLeave}
-              cornerRadius={15}
+              cornerRadius={10}
+              stroke="none"
+              isAnimationActive={false}
             >
               {salesData.map((item) => (
                 <Cell key={`cell-${item.name}`} fill={getColor(item.name)} />
