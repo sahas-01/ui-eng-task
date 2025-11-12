@@ -287,7 +287,6 @@ function OrdersPage() {
                           />
                         </div>
 
-                        {/* Status Filter */}
                         <div>
                           <label className="text-xs font-medium text-foreground mb-1.5 block">
                             Status
@@ -309,7 +308,6 @@ function OrdersPage() {
                           </select>
                         </div>
 
-                        {/* Clear Filters Button */}
                         <Button
                           variant="outline"
                           size="sm"
