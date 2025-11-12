@@ -1,4 +1,4 @@
-# ByeWind Dashboard
+# SAAS Dashboard
 
 A modern, responsive SAAS dashboard built with React, TanStack Router, and Tailwind CSS featuring light/dark mode theming.
 
