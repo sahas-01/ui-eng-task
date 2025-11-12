@@ -2,6 +2,7 @@ import { createFileRoute } from '@tanstack/react-router'
 import { useState, useMemo } from 'react'
 import { Sidebar } from '@/sections/Sidebar'
 import { TopBar } from '@/sections/TopBar'
+import { RightSidebar } from '@/sections/RightSidebar'
 import {
   Table,
   TableBody,
@@ -53,10 +54,11 @@ const statusColors = {
 }
 
 function OrdersPage() {
-  const [sidebarOpen, setSidebarOpen] = useState(false)
+  const [leftSidebarOpen, setLeftSidebarOpen] = useState(true)
+  const [rightSidebarOpen, setRightSidebarOpen] = useState(true)
   const [selectedOrders, setSelectedOrders] = useState<string[]>([])
   const [searchQuery, setSearchQuery] = useState('')
-  const [statusFilter, setStatusFilter] = useState<string>('all')
+  const [statusFilter] = useState<string>('all')
   const [sortField, setSortField] = useState<keyof Order>('id')
   const [sortDirection, setSortDirection] = useState<'asc' | 'desc'>('asc')
   const [currentPage, setCurrentPage] = useState(1)
@@ -137,23 +139,24 @@ function OrdersPage() {
 
   return (
     <div className="flex h-screen overflow-hidden bg-background">
-      {/* Sidebar */}
-      <div className="hidden lg:block">
-        <Sidebar />
-      </div>
+      {leftSidebarOpen && (
+        <div className="hidden lg:block">
+          <Sidebar />
+        </div>
+      )}
 
       {/* Mobile sidebar */}
-      {sidebarOpen && (
+      {leftSidebarOpen && (
         <div
           className="fixed inset-0 z-50 lg:hidden"
-          onClick={() => setSidebarOpen(false)}
+          onClick={() => setLeftSidebarOpen(false)}
         >
           <div className="absolute inset-0 bg-background/80 backdrop-blur-sm" />
           <div
             className="absolute left-0 top-0 h-full animate-in slide-in-from-left duration-200"
             onClick={(e) => e.stopPropagation()}
           >
-            <Sidebar />
+            <Sidebar onClose={() => setLeftSidebarOpen(false)} />
           </div>
         </div>
       )}
@@ -165,7 +168,8 @@ function OrdersPage() {
             { label: 'Dashboards' },
             { label: 'Default', href: '/dashboard' },
           ]}
-          onLeftSidebarToggle={() => setSidebarOpen(!sidebarOpen)}
+          onLeftSidebarToggle={() => setLeftSidebarOpen(!leftSidebarOpen)}
+          onRightSidebarToggle={() => setRightSidebarOpen(!rightSidebarOpen)}
         />
 
         <main className="flex-1 overflow-y-auto">
@@ -328,60 +332,65 @@ function OrdersPage() {
                 </TableBody>
               </Table>
             </div>
-
-            {/* Pagination */}
-            {totalPages > 1 && (
-              <div className="mt-4 flex items-center justify-end">
-                <Pagination>
-                  <PaginationContent>
-                    <PaginationItem>
-                      <PaginationPrevious
-                        onClick={() => {
-                          setCurrentPage((prev) => Math.max(1, prev - 1))
-                          setSelectedOrders([])
-                        }}
-                        className={cn(
-                          currentPage === 1 && 'cursor-pointer opacity-50',
-                        )}
-                      />
-                    </PaginationItem>
-                    {Array.from({ length: totalPages }, (_, i) => i + 1).map(
-                      (page) => (
-                        <PaginationItem key={page}>
-                          <PaginationLink
-                            onClick={() => {
-                              setCurrentPage(page)
-                              setSelectedOrders([])
-                            }}
-                            isActive={currentPage === page}
-                            className="cursor-pointer"
-                          >
-                            {page}
-                          </PaginationLink>
-                        </PaginationItem>
-                      ),
-                    )}
-                    <PaginationItem>
-                      <PaginationNext
-                        onClick={() => {
-                          setCurrentPage((prev) =>
-                            Math.min(totalPages, prev + 1),
-                          )
-                          setSelectedOrders([])
-                        }}
-                        className={cn(
-                          currentPage === totalPages &&
-                            'cursor-pointer opacity-50',
-                        )}
-                      />
-                    </PaginationItem>
-                  </PaginationContent>
-                </Pagination>
-              </div>
-            )}
           </div>
+
+          {/* Pagination */}
+          {totalPages > 1 && (
+            <div className="mt-4 flex items-center justify-end">
+              <Pagination className="justify-end px-10">
+                <PaginationContent>
+                  <PaginationItem>
+                    <PaginationPrevious
+                      onClick={() => {
+                        setCurrentPage((prev) => Math.max(1, prev - 1))
+                        setSelectedOrders([])
+                      }}
+                      className={cn(
+                        currentPage === 1 && 'cursor-pointer opacity-50',
+                      )}
+                    />
+                  </PaginationItem>
+                  {Array.from({ length: totalPages }, (_, i) => i + 1).map(
+                    (page) => (
+                      <PaginationItem key={page}>
+                        <PaginationLink
+                          onClick={() => {
+                            setCurrentPage(page)
+                            setSelectedOrders([])
+                          }}
+                          isActive={currentPage === page}
+                          className="cursor-pointer"
+                        >
+                          {page}
+                        </PaginationLink>
+                      </PaginationItem>
+                    ),
+                  )}
+                  <PaginationItem>
+                    <PaginationNext
+                      onClick={() => {
+                        setCurrentPage((prev) => Math.min(totalPages, prev + 1))
+                        setSelectedOrders([])
+                      }}
+                      className={cn(
+                        currentPage === totalPages &&
+                          'cursor-pointer opacity-50',
+                      )}
+                    />
+                  </PaginationItem>
+                </PaginationContent>
+              </Pagination>
+            </div>
+          )}
         </main>
       </div>
+
+      {/* Right Sidebar */}
+      {rightSidebarOpen && (
+        <div className="hidden lg:block">
+          <RightSidebar />
+        </div>
+      )}
     </div>
   )
 }
